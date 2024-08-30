@@ -7,7 +7,7 @@ import Series from "./Pages/Series/Series";
 import Trending from "./Pages/Trending/Trending";
 import Search from "./Pages/Search/Search";
 import { Container } from "@material-ui/core";
- 
+
 function App() {
   return (
     <BrowserRouter>
