@@ -8,7 +8,7 @@ Discover movies and TV series, organize your next watch, and find a movie your w
 
 **Designed and developed by [Vijay Anand](https://github.com/vijayanand1505).**
 
-[GitHub repository](https://github.com/vijayanand1505/Entertainment-Hub) · [All screenshots](docs/images/) · [Video recordings](docs/demos/)
+[Live app](https://entertainment-hub-mu.vercel.app) · [GitHub repository](https://github.com/vijayanand1505/Entertainment-Hub) · [All screenshots](docs/images/) · [Video recordings](docs/demos/)
 
 ![React 17](https://img.shields.io/badge/React-17-61DAFB?logo=react&logoColor=white)
 ![Material UI 4](https://img.shields.io/badge/Material_UI-4-0081CB?logo=mui&logoColor=white)
@@ -278,6 +278,8 @@ For deployment, retain a writable **persistent storage path** for rooms across r
 Static-only hosting can serve the catalog UI with an SPA fallback, but shared movie-night rooms also need the Node room service and a route/proxy for `/api/movie-night`. The simplest supported setup is the included production server on one origin.
 
 ### Vercel: UI and durable shared rooms
+
+Production: **[entertainment-hub-mu.vercel.app](https://entertainment-hub-mu.vercel.app)**. Project: **[Vijay's Team / entertainment-hub](https://vercel.com/vijay-s-team4/entertainment-hub)**.
 
 `vercel.json` builds the React app with npm on Node.js 24 and routes deep links back to the app. Requests under `/api/movie-night` use `api/movie-night.js` and a private Neon Postgres database instead of a local JSON file.
 
