@@ -1,11 +1,55 @@
-.carouselItem {
+.cast-list {
   display: flex;
-  flex-direction: column;
-  object-fit: contain;
-  padding: 10px;
+  gap: 13px;
+  overflow-x: auto;
+  padding-bottom: 12px;
 }
-.carouselItem__img {
-  border-radius: 10px;
-  margin-bottom: 5px;
-  box-shadow: 0px 0px 5px black;
+.cast-person {
+  flex: 0 0 75px;
+  min-width: 0;
+}
+.cast-person img {
+  width: 75px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 7px;
+  background: var(--surface-raised);
+  margin-bottom: 8px;
+}
+.cast-person > span {
+  font-size: 0.625rem;
+  font-weight: 500;
+  display: block;
+  line-height: 1.45;
+}
+.cast-person small {
+  font-size: 0.5625rem;
+  color: var(--muted);
+  display: block;
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
+.cast-person {
+  border-radius: 8px;
+  transition: color 0.2s;
+}
+.cast-person img {
+  transition:
+    filter 0.2s,
+    box-shadow 0.2s;
+}
+.cast-person:hover,
+.cast-person:focus-visible {
+  color: var(--accent);
+}
+.cast-person:hover img,
+.cast-person:focus-visible img {
+  box-shadow: 0 0 0 2px var(--accent-glow);
+  filter: brightness(1.08);
+}
+.cast-list {
+  padding-top: 3px;
+  padding-left: 3px;
+  margin-left: -3px;
 }

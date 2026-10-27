@@ -1,69 +1,48 @@
-import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import TvIcon from "@material-ui/icons/Tv";
-import MovieIcon from "@material-ui/icons/Movie";
-import SearchIcon from "@material-ui/icons/Search";
-import WhatshotIcon from "@material-ui/icons/Whatshot";
-import { useHistory } from "react-router-dom";
-
-const useStyles = makeStyles({
-  root: {
-    width: "100%",
-    position: "fixed",
-    bottom: 0,
-    backgroundColor: "#2d313a",
-    zIndex: 100,
-  },
-});
+import { NavLink } from "react-router-dom";
+import TvRoundedIcon from "@material-ui/icons/TvRounded";
+import MovieRoundedIcon from "@material-ui/icons/MovieRounded";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import ExploreOutlinedIcon from "@material-ui/icons/ExploreOutlined";
+import BookmarkBorderRoundedIcon from "@material-ui/icons/BookmarkBorderRounded";
 
 export default function SimpleBottomNavigation() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  const history = useHistory();
-
-  useEffect(() => {
-    if (value === 0) {
-      history.push("/");
-    } else if (value === 1) {
-      history.push("/movies");
-    } else if (value === 2) {
-      history.push("/series");
-    } else if (value === 3) {
-      history.push("/search");
-    }
-  }, [value, history]);
-
   return (
-    <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-      className={classes.root}
-    >
-      <BottomNavigationAction
-        style={{ color: "white" }}
-        label="Trending"
-        icon={<WhatshotIcon />}
-      />
-      <BottomNavigationAction
-        style={{ color: "white" }}
-        label="Movies"
-        icon={<MovieIcon />}
-      />
-      <BottomNavigationAction
-        style={{ color: "white" }}
-        label="TV Series"
-        icon={<TvIcon />}
-      />
-      <BottomNavigationAction
-        style={{ color: "white" }}
-        label="Search"
-        icon={<SearchIcon />}
-      />
-    </BottomNavigation>
+    <nav className="mobile-nav" aria-label="Mobile navigation">
+      <NavLink
+        exact
+        to="/"
+        activeClassName="active"
+        isActive={(_, location) =>
+          location.pathname === "/" ||
+          location.pathname.startsWith("/movie-night")
+        }
+      >
+        <ExploreOutlinedIcon />
+        Discover
+      </NavLink>
+      <NavLink to="/movies" activeClassName="active">
+        <MovieRoundedIcon />
+        Movies
+      </NavLink>
+      <NavLink to="/series" activeClassName="active">
+        <TvRoundedIcon />
+        TV Series
+      </NavLink>
+      <NavLink to="/search" activeClassName="active">
+        <SearchRoundedIcon />
+        Search
+      </NavLink>
+      <NavLink
+        to="/watchlist"
+        activeClassName="active"
+        isActive={(_, location) =>
+          ["/watchlist", "/recently-viewed"].includes(location.pathname) ||
+          location.pathname.startsWith("/collections")
+        }
+      >
+        <BookmarkBorderRoundedIcon />
+        My library
+      </NavLink>
+    </nav>
   );
 }

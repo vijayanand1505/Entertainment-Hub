@@ -1,41 +1,255 @@
 .media {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  padding: 5px;
-  margin: 5px 0;
-  background-color: #282c34;
+  min-width: 0;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
   border-radius: 10px;
+  padding: 0;
   position: relative;
-  font-family: "Montserrat", sans-serif;
+  font-family: inherit;
+  color: var(--text);
 }
-
-.media:hover {
-  background-color: white;
-  color: black;
+.poster-frame {
+  display: block;
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
-
-@media (max-width: 550px) {
-  .media {
-    width: 46%;
+.poster-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #0009, transparent 32%);
+  pointer-events: none;
+}
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform 0.4s ease,
+    filter 0.4s;
+}
+.media:hover .poster,
+.media:focus-visible .poster {
+  transform: scale(1.045);
+  filter: brightness(0.78);
+}
+.card-rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #f8e2a3;
+  background: #141416dd;
+  backdrop-filter: blur(8px);
+  border: 1px solid #ffffff1a;
+  padding: 3px 6px;
+  border-radius: 5px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.5;
+  z-index: 1;
+}
+.card-rating svg {
+  font-size: 0.75rem;
+}
+.card-type {
+  position: absolute;
+  bottom: 11px;
+  left: 12px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: #f3f3f3;
+  z-index: 1;
+}
+.card-hover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(5px);
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+  z-index: 1;
+}
+.card-hover svg {
+  font-size: 1rem;
+}
+.media:hover .card-hover,
+.media:focus-visible .card-hover {
+  opacity: 1;
+  transform: translateY(0);
+}
+.title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  margin-top: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.media:hover .title {
+  color: var(--accent);
+}
+.subTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.625rem;
+  line-height: 1.4;
+}
+.card-meta-dot {
+  color: var(--subtle);
+}
+@media (max-width: 650px) {
+  .title {
+    font-size: 0.75rem;
+    margin-top: 9px;
+  }
+  .poster-frame {
+    border-radius: 9px;
+  }
+  .card-rating {
+    top: 8px;
+    left: 8px;
   }
 }
 
-.poster {
-  border-radius: 10px;
+.media-card {
+  position: relative;
+  min-width: 0;
+}
+.card-save {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: #141416dd;
+  border: 1px solid #ffffff35;
+  color: white;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  z-index: 3;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
+}
+.card-save svg {
+  font-size: 1.1875rem;
+}
+.card-save:hover,
+.card-save.saved {
+  background: #402a23f2;
+  color: #ff9a79;
+  border-color: #ff805866;
 }
 
-.title {
+.poster-quick-actions {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  text-align: center;
-  font-size: 17px;
-  padding: 8px 0;
-}
-
-.subTitle {
+  aspect-ratio: 2/3;
   display: flex;
-  justify-content: space-between;
-  padding-bottom: 3px;
-  padding: 0 2px;
-  padding-bottom: 3px;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 8px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+.poster-action-bar {
+  pointer-events: auto;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  background: #15161af2;
+  border: 1px solid #ffffff35;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px #0004;
+}
+.poster-quick-button {
+  display: grid;
+  place-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 3px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #fff;
+}
+.poster-quick-button svg {
+  font-size: 1.1875rem;
+}
+.poster-quick-button:hover,
+.poster-quick-button:focus-visible {
+  color: #ffad8f;
+  background: #ffffff18;
+}
+.media-card:hover .poster-quick-actions,
+.media-card:focus-within .poster-quick-actions {
+  opacity: 1;
+  transform: none;
+}
+.media-card:hover .poster,
+.media-card:focus-within .poster {
+  filter: brightness(0.75);
+}
+.media-card:hover .card-type,
+.media-card:focus-within .card-type {
+  opacity: 0;
+}
+@media (hover: none), (pointer: coarse) {
+  .poster-quick-actions {
+    opacity: 1;
+    transform: none;
+  }
+  .media-card .card-type {
+    display: none;
+  }
+  .poster-quick-button {
+    height: 38px;
+  }
+}
+@media (max-width: 650px) {
+  .poster-quick-actions {
+    padding: 5px;
+  }
+  .poster-quick-button svg {
+    font-size: 1rem;
+  }
 }

@@ -1,0 +1,211 @@
+.MuiDialog-paper.trailer-dialog {
+  width: min(1040px, calc(100% - 48px));
+  margin: 24px;
+  max-height: calc(100% - 48px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  color: var(--text);
+  overflow-x: hidden;
+}
+.trailer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 25px;
+}
+.trailer-heading .eyebrow {
+  font-size: 0.5rem;
+  letter-spacing: 1.7px;
+}
+.trailer-heading h2 {
+  font:
+    700 1.4375rem/1.3 "Manrope",
+    sans-serif;
+  letter-spacing: -0.6px;
+  margin: 6px 0 0;
+}
+.trailer-close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+}
+.trailer-close:hover {
+  color: var(--accent);
+  border-color: var(--accent-border);
+}
+.trailer-close svg {
+  font-size: 1.1875rem;
+}
+.trailer-stage {
+  position: relative;
+  aspect-ratio: 16/9;
+  width: 100%;
+  min-height: 200px;
+  background: #08090b;
+  isolation: isolate;
+}
+.youtube-holder,
+.youtube-holder > iframe {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+.trailer-loading,
+.trailer-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 24px;
+  background: #08090bf5;
+}
+.trailer-loading {
+  pointer-events: none;
+}
+.trailer-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #ffffff20;
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: trailer-spin 0.9s linear infinite;
+}
+@keyframes trailer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.trailer-error h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.trailer-error p {
+  margin: 0;
+  line-height: 1.7;
+  max-width: 400px;
+}
+.trailer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 20px 25px;
+}
+.trailer-video-choice {
+  min-width: 0;
+  flex: 1;
+  max-width: 600px;
+}
+.trailer-video-choice label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.5625rem;
+}
+.trailer-video-choice select {
+  font:
+    400 0.75rem "DM Sans",
+    sans-serif;
+  color: var(--text);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 10px;
+  width: 100%;
+  min-width: 0;
+}
+.trailer-video-choice select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.trailer-video-choice > span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.trailer-footer .text-link {
+  font-size: 0.6875rem;
+  flex-shrink: 0;
+}
+.trailer-footer .text-link svg {
+  font-size: 0.875rem;
+}
+@media (max-width: 600px) {
+  .MuiDialog-paper.trailer-dialog {
+    width: calc(100% - 24px);
+    margin: 12px;
+    max-height: calc(100% - 24px);
+    border-radius: 12px;
+  }
+  .trailer-heading {
+    padding: 18px;
+    gap: 15px;
+  }
+  .trailer-heading h2 {
+    font-size: 1.1875rem;
+  }
+  .trailer-footer {
+    padding: 17px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 17px;
+  }
+  .trailer-video-choice {
+    max-width: none;
+  }
+  .trailer-footer .text-link {
+    align-self: flex-end;
+  }
+  .trailer-error {
+    padding: 18px;
+    gap: 12px;
+  }
+  .trailer-error h3 {
+    font-size: 0.9375rem;
+  }
+  .trailer-error p {
+    font-size: 0.6875rem;
+  }
+  .trailer-error .button {
+    padding: 10px 15px;
+    font-size: 0.6875rem;
+  }
+}
+
+.trailer-pending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 240px;
+  padding: 28px;
+  color: #c1c0ca;
+  text-align: center;
+  line-height: 1.8;
+  font-size: 0.875rem;
+}
+.trailer-pending p,
+.trailer-pending h3 {
+  margin: 0;
+}
+.trailer-pending h3 {
+  color: #fff;
+}

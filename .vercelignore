@@ -1,0 +1,10 @@
+.git
+.data
+.env*
+.eslintcache
+node_modules
+build
+coverage
+docs
+**/*.test.js
+**/*.test.cjs

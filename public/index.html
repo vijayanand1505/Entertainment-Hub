@@ -1,22 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#111214" />
+    <script>
+      (function () {
+        try {
+          var saved = JSON.parse(
+            localStorage.getItem("eh-appearance-v1") || "{}",
+          );
+          var preference =
+            ["light", "dark", "system"].indexOf(saved.theme) >= 0
+              ? saved.theme
+              : "dark";
+          var mode =
+            preference === "system"
+              ? window.matchMedia &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light"
+              : preference;
+          var text =
+            ["standard", "large", "xlarge"].indexOf(saved.textSize) >= 0
+              ? saved.textSize
+              : "standard";
+          var root = document.documentElement;
+          root.setAttribute("data-theme", mode);
+          root.setAttribute("data-text-size", text);
+          root.setAttribute(
+            "data-density",
+            saved.density === "compact" ? "compact" : "comfortable",
+          );
+          root.style.fontSize =
+            { standard: 16, large: 18, xlarge: 20 }[text] + "px";
+          document.querySelector('meta[name="theme-color"]').content =
+            mode === "light" ? "#f5f5f7" : "#111214";
+        } catch (error) {}
+      })();
+    </script>
+    <meta name="author" content="Vijay Anand" />
+    <link rel="author" href="https://github.com/vijayanand1505" />
     <meta
       name="description"
-      content="Get info for all your favorite movies and series"
+      content="Discover your next favorite movie or TV series. Explore trending stories, find hidden gems, and meet your next binge on Entertainment Hub."
     />
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap"
-    />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://image.tmdb.org" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Entertainment Hub</title>
+    <title>Entertainment Hub — Vijay Anand</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

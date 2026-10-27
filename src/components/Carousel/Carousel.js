@@ -1,62 +1,45 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import AliceCarousel from "react-alice-carousel";
-import "react-alice-carousel/lib/alice-carousel.css";
 import { img_300, noPicture } from "../../config/config";
+import { Link, useLocation } from "react-router-dom";
+import { personPath, validPersonId } from "../../utils/people";
 import "./Carousel.css";
 
-const handleDragStart = (e) => e.preventDefault();
-
-const Gallery = ({ id, media_type }) => {
-  const [credits, setCredits] = useState([]);
-
-  const items = credits.map((c) => (
-    <div className="carouselItem">
-      <img
-        src={c.profile_path ? `${img_300}/${c.profile_path}` : noPicture}
-        alt={c?.name}
-        onDragStart={handleDragStart}
-        className="carouselItem__img"
-      />
-      <b className="carouselItem__txt">{c?.name}</b>
-    </div>
-  ));
-
-  const responsive = {
-    0: {
-      items: 3,
-    },
-    512: {
-      items: 5,
-    },
-    1024: {
-      items: 7,
-    },
-  };
-
-  const fetchCredits = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setCredits(data.cast);
-  };
-
-  useEffect(() => {
-    fetchCredits();
-    // eslint-disable-next-line
-  }, []);
-
+export default function Carousel({ credits = [], sourceTitle }) {
+  const location = useLocation();
   return (
-    <AliceCarousel
-      mouseTracking
-      infinite
-      disableDotsControls
-      disableButtonsControls
-      responsive={responsive}
-      items={items}
-      autoPlay
-    />
+    <div className="cast-list" aria-label="Cast">
+      {credits
+        .filter((person) => validPersonId(person.id))
+        .slice(0, 12)
+        .map((person) => (
+          <Link
+            className="cast-person"
+            key={person.id}
+            aria-label={`View ${person.name}’s profile`}
+            to={{
+              pathname: personPath(person.id),
+              state: {
+                from: sourceTitle?.path || location.pathname + location.search,
+                fromTitle: sourceTitle?.title,
+              },
+            }}
+          >
+            <img
+              src={
+                person.profile_path
+                  ? `${img_300}${person.profile_path}`
+                  : noPicture
+              }
+              alt=""
+              loading="lazy"
+              onError={(event) => {
+                if (!event.currentTarget.src.endsWith(noPicture))
+                  event.currentTarget.src = noPicture;
+              }}
+            />
+            <span>{person.name}</span>
+            <small>{person.character}</small>
+          </Link>
+        ))}
+    </div>
   );
-};
-
-export default Gallery;
+}

@@ -1,70 +1,56 @@
-import { Chip } from "@material-ui/core";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const Genres = ({
-  selectedGenres,
-  setSelectedGenres,
-  genres,
-  setGenres,
-  type,
-  setPage,
-}) => {
-  const handleAdd = (genre) => {
-    setSelectedGenres([...selectedGenres, genre]);
-    setGenres(genres.filter((g) => g.id !== genre.id));
-    setPage(1);
-  };
-
-  const handleRemove = (genre) => {
-    setSelectedGenres(
-      selectedGenres.filter((selected) => selected.id !== genre.id)
-    );
-    setGenres([...genres, genre]);
-    setPage(1);
-  };
-
-  const fetchGenres = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/genre/${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setGenres(data.genres);
-  };
-
+export default function Genres({ selectedGenres, setSelectedGenres, type }) {
+  const [genres, setGenres] = useState([]);
   useEffect(() => {
-    fetchGenres();
-
+    let active = true;
+    axios
+      .get(`https://api.themoviedb.org/3/genre/${type}/list`, {
+        params: { api_key: process.env.REACT_APP_API_KEY, language: "en-US" },
+      })
+      .then(({ data }) => {
+        if (active) setGenres(data.genres);
+      })
+      .catch(() => {
+        if (active) setGenres([]);
+      });
     return () => {
-      setGenres({}); // unmounting
+      active = false;
     };
-    // eslint-disable-next-line
-  }, []);
-
+  }, [type]);
+  const toggleGenre = (genre) => {
+    setSelectedGenres(
+      selectedGenres.some((item) => item.id === genre.id)
+        ? selectedGenres.filter((item) => item.id !== genre.id)
+        : [...selectedGenres, genre],
+    );
+  };
   return (
-    <div style={{ padding: "6px 0" }}>
-      {selectedGenres.map((genre) => (
-        <Chip
-          style={{ margin: 2 }}
-          label={genre.name}
-          key={genre.id}
-          color="primary"
-          clickable
-          size="small"
-          onDelete={() => handleRemove(genre)}
-        />
-      ))}
-      {genres.map((genre) => (
-        <Chip
-          style={{ margin: 2 }}
-          label={genre.name}
-          key={genre.id}
-          clickable
-          size="small"
-          onClick={() => handleAdd(genre)}
-        />
-      ))}
+    <div className="genre-filters" role="group" aria-label="Filter by genre">
+      <button
+        className={`genre-chip ${!selectedGenres.length ? "active" : ""}`}
+        aria-pressed={!selectedGenres.length}
+        onClick={() => {
+          setSelectedGenres([]);
+        }}
+      >
+        All genres
+      </button>
+      {genres.map((genre) => {
+        const selected = selectedGenres.some((item) => item.id === genre.id);
+        return (
+          <button
+            key={genre.id}
+            className={`genre-chip ${selected ? "active" : ""}`}
+            aria-pressed={selected}
+            onClick={() => toggleGenre(genre)}
+          >
+            {genre.name}
+            {selected && <span aria-hidden="true">×</span>}
+          </button>
+        );
+      })}
     </div>
   );
-};
-
-export default Genres;
+}

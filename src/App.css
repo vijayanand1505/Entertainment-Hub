@@ -1,34 +1,305 @@
-* {
-  scroll-behavior: smooth;
+.app,
+.site-footer {
+  width: min(1400px, calc(100% - 96px));
+  margin: 0 auto;
 }
-
 .app {
-  min-height: 100vh;
-  background-color: #39445a;
-  color: white;
-  padding-top: 130px;
-  padding-bottom: 70px;
+  min-height: 70vh;
+  padding: 34px 0 68px;
 }
-
-@media (max-width: 700px) {
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  z-index: 1500;
+  padding: 12px 20px;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  border-radius: 8px;
+}
+.skip-link:focus {
+  top: 10px;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+.page-heading {
+  margin: 10px 0 30px;
+}
+.page-heading h1 {
+  font:
+    800 clamp(1.875rem, 4vw, 2.875rem)/1.2 "Manrope",
+    sans-serif;
+  letter-spacing: -1.8px;
+  margin: 0 0 10px;
+}
+.page-heading p {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.7;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 36px 0 24px;
+}
+.section-heading h2 {
+  margin: 0 0 7px;
+  font:
+    800 1.5625rem/1.3 "Manrope",
+    sans-serif;
+  letter-spacing: -0.8px;
+}
+.section-heading p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.8125rem;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.text-link svg {
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+.text-link:hover svg {
+  transform: translateX(3px);
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  padding: 13px 21px;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-weight: 700;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+.button svg {
+  font-size: 1.1875rem;
+}
+.button-secondary {
+  color: var(--text);
+  background: var(--hover-bg);
+  border-color: var(--border);
+  backdrop-filter: blur(8px);
+}
+.button-secondary:hover {
+  background: var(--hover-bg);
+}
+.catalog-state {
+  padding: 65px 20px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  margin: 24px 0;
+}
+.catalog-state svg {
+  color: var(--accent);
+  font-size: 2.125rem;
+}
+.catalog-state h2 {
+  font-family: "Manrope", sans-serif;
+  font-size: 1.375rem;
+  margin: 15px 0 10px;
+}
+.catalog-state p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 auto 22px;
+  max-width: 430px;
+}
+.skeleton {
+  background: linear-gradient(
+    100deg,
+    var(--skeleton-base) 20%,
+    var(--skeleton-shine) 40%,
+    var(--skeleton-base) 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.7s linear infinite;
+  border-radius: 10px;
+}
+.skeleton-poster {
+  aspect-ratio: 2/3;
+}
+.skeleton-line {
+  height: 14px;
+  width: 75%;
+  margin-top: 14px;
+}
+.skeleton-line.short {
+  height: 10px;
+  width: 45%;
+  margin-top: 10px;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+.genre-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0 30px;
+}
+.genre-chip {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 8px 13px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.genre-chip:hover {
+  border-color: var(--accent-border);
+  color: var(--text);
+}
+.genre-chip.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+.genre-chip span {
+  margin-left: 6px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 42px;
+}
+.pagination .MuiPaginationItem-root {
+  font-family: inherit;
+}
+.pagination .Mui-selected {
+  background: var(--accent-soft) !important;
+  color: var(--accent);
+}
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 28px 0 34px;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+.site-footer strong {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.9375rem;
+  letter-spacing: -0.5px;
+}
+.site-footer strong span {
+  color: var(--accent);
+}
+.site-footer p {
+  color: var(--muted);
+  font-size: 0.6875rem;
+  line-height: 1.7;
+  margin: 8px 0 0;
+}
+.footer-credit {
+  text-align: right;
+  max-width: 390px;
+}
+.footer-credit a {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+.footer-credit a:hover {
+  color: var(--accent);
+}
+@media (min-width: 1600px) {
   .app {
-    padding-top: 70px;
+    padding-top: 44px;
+  }
+}
+@media (max-width: 1000px) {
+  .app,
+  .site-footer {
+    width: calc(100% - 56px);
+  }
+}
+@media (max-width: 650px) {
+  .app,
+  .site-footer {
+    width: calc(100% - 36px);
+  }
+  .app {
+    padding-top: 24px;
+    padding-bottom: 40px;
+  }
+  .site-footer {
+    flex-direction: column;
+    padding-bottom: 105px;
+    gap: 20px;
+  }
+  .footer-credit {
+    text-align: left;
+  }
+  .section-heading {
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .section-heading h2 {
+    font-size: 1.375rem;
+  }
+  .section-heading p {
+    font-size: 0.75rem;
+  }
+  .text-link {
+    font-size: 0.6875rem;
+  }
+  .page-heading h1 {
+    letter-spacing: -1px;
+  }
+  .genre-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    margin-bottom: 8px;
+  }
+  .genre-chip {
+    white-space: nowrap;
   }
 }
 
-.pageTitle {
-  text-transform: uppercase;
-  display: flex;
-  justify-content: center;
-  font-family: "Montserrat", sans-serif;
-  font-size: 2vw;
-  padding: 4px;
-  border-radius: 50px;
-  color: white;
-}
-
-@media (max-width: 1000px) {
-  .pageTitle {
-    font-size: 6.4vw;
+@media (max-width: 760px) {
+  .site-footer {
+    padding-bottom: 105px;
+  }
+  .library-toast {
+    bottom: calc(84px + env(safe-area-inset-bottom)) !important;
   }
 }

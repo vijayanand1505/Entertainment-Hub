@@ -1,0 +1,18 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "create-react-app",
+  "installCommand": "npm ci --no-audit --no-fund",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "regions": ["sin1"],
+  "functions": {
+    "api/movie-night.js": { "maxDuration": 120 }
+  },
+  "rewrites": [
+    {
+      "source": "/api/movie-night/:roomPath*",
+      "destination": "/api/movie-night?roomPath=:roomPath*"
+    },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}
