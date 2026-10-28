@@ -303,6 +303,8 @@ Room records remain private in Postgres and expire after 24 hours; expired recor
 
 The frontend no longer registers an offline service worker. The old cache-first worker could keep showing a previous deployment while tabs remained open. Keep `public/service-worker.js` at the same URL: it replaces that worker, removes its asset caches, unregisters itself, and reloads the tabs it controlled once. Watchlists, collections, preferences, and room tokens in local/session storage are preserved. Vercel requires revalidation of the homepage and does not cache the recovery worker. This follows [Chrome's service-worker recovery approach](https://developer.chrome.com/docs/workbox/remove-buggy-service-workers). Future deployment checks should include a returning browser with an older worker installed, as well as a fresh session.
 
+Browser tab icons have explicit formats and sizes in `public/index.html`, with versioned URLs so browsers request the updated icons. Both web manifests reference existing icon files with their actual dimensions. When replacing icons, update the version in the HTML and both manifests as well.
+
 To run the database concurrency and persistence checks against a test database, set `ROOMS_TEST_DATABASE_URL` and run `npm run test:rooms`. Those checks create and remove their own test rooms. Without that variable, only the database integration checks are skipped.
 
 ### Available commands
