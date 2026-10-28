@@ -301,6 +301,8 @@ Production: **[the-entertainment-hub.vercel.app](https://the-entertainment-hub.v
 
 Room records remain private in Postgres and expire after 24 hours; expired records are removed when another room is created. Local `npm start` and `npm run start:production` continue using the file-backed service. A Vercel deployment must not use its temporary filesystem for shared rooms.
 
+The frontend no longer registers an offline service worker. The old cache-first worker could keep showing a previous deployment while tabs remained open. Keep `public/service-worker.js` at the same URL: it replaces that worker, removes its asset caches, unregisters itself, and reloads the tabs it controlled once. Watchlists, collections, preferences, and room tokens in local/session storage are preserved. Vercel requires revalidation of the homepage and does not cache the recovery worker. This follows [Chrome's service-worker recovery approach](https://developer.chrome.com/docs/workbox/remove-buggy-service-workers). Future deployment checks should include a returning browser with an older worker installed, as well as a fresh session.
+
 To run the database concurrency and persistence checks against a test database, set `ROOMS_TEST_DATABASE_URL` and run `npm run test:rooms`. Those checks create and remove their own test rooms. Without that variable, only the database integration checks are skipped.
 
 ### Available commands
@@ -453,6 +455,7 @@ The implemented UI has also been checked in separate host/guest browser sessions
 | A saved room seat is missing                         | Return using the same browser and origin. Clearing storage or switching origins loses saved access; a removed participant must rejoin while the lobby is open. |
 | No watching options or no playable trailer           | Data and playback depend on the title, country, provider, and video availability. Change the country/video or use the external watching-options/YouTube link.  |
 | Refreshing a title or room URL gives a hosting 404   | Use the included production server or configure your host to serve the SPA for non-file frontend routes.                                                       |
+| Production shows an older design than localhost    | Reopen or reload the production page online. The recovery worker replaces the previous offline cache and refreshes its open tabs; saved browser data stays intact. |
 | A port is already in use                             | Stop the previous process or set different `PORT` and `ROOMS_PORT` values.                                                                                     |
 | Room data cannot be read or saved                    | Check `ROOMS_DATA_FILE`, directory permissions, available storage, and the validity of a backup before replacing an existing room file.                        |
 
