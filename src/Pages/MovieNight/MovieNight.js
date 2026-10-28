@@ -27,6 +27,8 @@ import SaveButton from "../../components/SaveButton";
 import CollectionButton from "../../components/CollectionButton";
 import NightPreferences from "./NightPreferences";
 import NightMembers, { NightAvatars } from "./NightMembers";
+import StreamingServices from "../../components/StreamingServices";
+import { usePersonalization } from "../../context/PersonalizationContext";
 import "./MovieNight.css";
 
 function NightIntro({ invitation }) {
@@ -35,29 +37,26 @@ function NightIntro({ invitation }) {
       <span className="night-intro-icon">
         <GroupRoundedIcon />
       </span>
-      <span className="eyebrow">GOOD STORIES. GREAT COMPANY.</span>
+      <span className="eyebrow">Movie night</span>
       <h1>
         {invitation ? (
           <>
             You’re invited to
             <br />
-            <span>{invitation.name}.</span>
+            <span>{invitation.name}</span>
           </>
         ) : (
           <>
-            One movie.
+            Choose a movie
             <br />
-            Everyone’s kind
-            <br />
-            {" of night"}
-            <span>.</span>
+            with friends
           </>
         )}
       </h1>
       <p>
         {invitation
-          ? `${invitation.memberCount} ${invitation.memberCount === 1 ? "person is" : "people are"} already here. Bring your taste. Find a story together.`
-          : "Skip the endless “what should we watch?” Share a room, vote in private, and find your common ground."}
+          ? `${invitation.memberCount} ${invitation.memberCount === 1 ? "person is" : "people are"} already here. Join to add your preferences and vote.`
+          : "Create a room, invite friends, and vote privately on movies. See the group’s matches when everyone finishes."}
       </p>
       <div className="night-vote-preview" aria-hidden="true">
         <span className="preview-pass">
@@ -74,22 +73,22 @@ function NightIntro({ invitation }) {
         <li>
           <span>01</span>
           <div>
-            <strong>Bring your people</strong>
+            <strong>Invite friends</strong>
             <p>Invite up to 11 friends. No account needed.</p>
           </div>
         </li>
         <li>
           <span>02</span>
           <div>
-            <strong>Go with your gut</strong>
+            <strong>Vote on movies</strong>
             <p>Watch it, Maybe, or Pass. Your choices stay private.</p>
           </div>
         </li>
         <li>
           <span>03</span>
           <div>
-            <strong>Meet your movie-night match</strong>
-            <p>Everyone finishes. Your strongest matches appear.</p>
+            <strong>See your matches</strong>
+            <p>Results appear when everyone has finished voting.</p>
           </div>
         </li>
       </ol>
@@ -98,6 +97,7 @@ function NightIntro({ invitation }) {
 }
 function NightSetup({ invitation, onJoin, busy, error, onCreate }) {
   const { collections } = useCollections();
+  const { streaming } = usePersonalization();
   const history = useHistory();
   const location = useLocation();
   const [name, setName] = useState("Our movie night");
@@ -125,6 +125,7 @@ function NightSetup({ invitation, onJoin, busy, error, onCreate }) {
               name,
               displayName,
               preferences: prefs,
+              ...(!invitation && streaming ? { streaming } : {}),
               ...(selected
                 ? {
                     source: {
@@ -142,9 +143,9 @@ function NightSetup({ invitation, onJoin, busy, error, onCreate }) {
           }}
         >
           <div className="night-panel-heading">
-            <h2>{invitation ? "Take your seat." : "Set the scene."}</h2>
+            <h2>{invitation ? "Join this room" : "Create a room"}</h2>
             <span className="night-small-pill">
-              {invitation ? "Join the crew" : "2–12 people"}
+              {invitation ? "Join room" : "2–12 people"}
             </span>
           </div>
           <label className="night-field">
@@ -200,6 +201,16 @@ function NightSetup({ invitation, onJoin, busy, error, onCreate }) {
                 </p>
               )}
             </>
+          )}
+          {!invitation && (
+            <StreamingServices toggleLabel="Use my subscriptions for this room" />
+          )}
+          {invitation?.streaming && (
+            <p className="night-help">
+              This room uses the host’s {invitation.streaming.providers.length}{" "}
+              selected subscriptions in {invitation.streaming.region}. Rentals
+              and purchases are excluded.
+            </p>
           )}
           <NightPreferences value={prefs} onChange={setPrefs} disabled={busy} />
           {error && (
@@ -312,8 +323,8 @@ function NightInvite({ room }) {
   return (
     <section className="night-invite">
       <div>
-        <span className="eyebrow">SAVE A SEAT FOR YOUR PEOPLE</span>
-        <h2>Good company makes the movie.</h2>
+        <span className="eyebrow">Invite friends</span>
+        <h2>Share your room link</h2>
         <p>Share this link before the host starts voting.</p>
       </div>
       <div className="night-invite-copy">
@@ -448,12 +459,9 @@ function NightVoting({ room, busy, onVote }) {
         <span className="night-done-icon">
           <CheckRoundedIcon />
         </span>
-        <span className="eyebrow">YOUR PART IS IN THE CAN</span>
-        <h2>You’ve had your say.</h2>
-        <p>
-          Waiting for the rest of the crew. Matches reveal automatically when
-          everyone finishes.
-        </p>
+        <span className="eyebrow">Voting complete</span>
+        <h2>Your votes are saved</h2>
+        <p>Results appear automatically when everyone finishes.</p>
         <NightAvatars members={room.members} />
         <button
           className="button button-secondary"
@@ -467,7 +475,7 @@ function NightVoting({ room, busy, onVote }) {
   return (
     <section className="night-ballot" aria-label="Your private voting card">
       <div className="night-ballot-top">
-        <span className="eyebrow">YOUR TASTE. YOUR CALL.</span>
+        <span className="eyebrow">Your private vote</span>
         <span>
           Movie {index + 1} of {room.deck.length}
         </span>
@@ -509,7 +517,7 @@ function NightVoting({ room, busy, onVote }) {
           </div>
           <p>
             {selected.overview ||
-              "A new story is waiting. Explore the details for a closer look."}
+              "No synopsis available. Open the details to learn more."}
           </p>
           <NightMovieActions item={selected} />
         </div>
@@ -588,20 +596,20 @@ function NightResults({ room }) {
           ✦
         </span>
         <NightAvatars members={room.members} />
-        <span className="eyebrow">THE VOTES ARE IN</span>
+        <span className="eyebrow">Results</span>
         <h2 id="night-match-heading" ref={heading} tabIndex={-1}>
           {winner.unanimous
-            ? "Looks like movie night is sorted."
+            ? "Everyone wants to watch this"
             : winner.mutual
-              ? "You’ve found common ground."
-              : "Your closest matches are here."}
+              ? "Your group’s top match"
+              : "Your closest matches"}
         </h2>
         <p>
           {winner.unanimous
-            ? "A story everyone wants to watch. Get comfortable."
+            ? "Everyone voted Watch it for this movie."
             : winner.mutual
-              ? "Nobody passed on your top pick. Let’s make a night of it."
-              : "There’s no shared yes yet. These have the fewest passes, then the strongest support."}
+              ? "Everyone voted Watch it or Maybe for the top match."
+              : "No movie avoided a Pass vote. These are ranked by fewest passes, then overall support."}
         </p>
       </div>
       <article className="night-winner">
@@ -616,7 +624,7 @@ function NightResults({ room }) {
           </span>
         </div>
         <div>
-          <span className="eyebrow">YOUR #1 MOVIE-NIGHT MATCH</span>
+          <span className="eyebrow">Top match</span>
           <h3>{winner.title}</h3>
           <MovieMeta item={winner} />
           <div className="night-match-reasons">
@@ -649,7 +657,7 @@ function NightResults({ room }) {
         </div>
       </article>
       <div className="night-ranking-heading">
-        <h3>Your group’s lineup</h3>
+        <h3>All results</h3>
         <span>
           {room.results.length} {room.results.length === 1 ? "movie" : "movies"}{" "}
           ranked
@@ -674,7 +682,7 @@ function NightResults({ room }) {
                   {item.unanimous
                     ? "Everyone wants to watch this"
                     : item.mutual
-                      ? "No passes from the crew"
+                      ? "No Pass votes"
                       : `${item.score}% support`}
                 </span>
               </div>
@@ -779,7 +787,7 @@ export default function MovieNight() {
         <h1>
           {state.loading
             ? "Finding your movie night…"
-            : "A brief intermission."}
+            : "Couldn’t load this room"}
         </h1>
         <p>{state.connectionError || "Saving a seat for you."}</p>
         {state.connectionError && (
@@ -833,24 +841,28 @@ export default function MovieNight() {
           <Link className="text-link" to="/movie-night">
             ← Movie Night Match
           </Link>
-          <h1>
-            {room.name}
-            <span>.</span>
-          </h1>
+          <h1>{room.name}</h1>
           <p>
             Round {room.round} · {room.members.length} people ·{" "}
             {room.sourceName
               ? "From " + room.sourceName
-              : "A lineup made for your crew"}
+              : "Movies selected for your group"}
           </p>
         </div>
         <NightAvatars members={room.members} />
       </div>
+      {room.streaming && (
+        <p className="personalization-note">
+          Movies included with the host’s {room.streaming.providers.length}{" "}
+          selected subscriptions in {room.streaming.region}. Rentals and
+          purchases are excluded.
+        </p>
+      )}
       <ol className="night-steps" aria-label="Movie night progress">
         {[
-          ["lobby", "Gather the crew"],
-          ["voting", "Cast your votes"],
-          ["results", "Meet your matches"],
+          ["lobby", "Lobby"],
+          ["voting", "Voting"],
+          ["results", "Results"],
         ].map(([phase, label], index) => (
           <li
             key={phase}
@@ -897,7 +909,9 @@ export default function MovieNight() {
             <div className="night-round-again">
               <div>
                 <h3>One more round?</h3>
-                <p>Keep the crew and invite link. Start with fresh votes.</p>
+                <p>
+                  Start a new vote with the same participants and invite link.
+                </p>
               </div>
               <button
                 className="button"
@@ -915,11 +929,11 @@ export default function MovieNight() {
           <div>
             {room.phase === "lobby" ? (
               <section className="night-lobby-panel">
-                <span className="eyebrow">A LITTLE COMMON GROUND</span>
+                <span className="eyebrow">Lobby</span>
                 <h2>
                   {isHost
-                    ? "Ready when your people are."
-                    : "You’re on the guest list."}
+                    ? "Waiting for everyone to join"
+                    : "You’ve joined the room"}
                 </h2>
                 <p>
                   {isHost
@@ -993,10 +1007,10 @@ export default function MovieNight() {
                 <span className="night-result-spark" aria-hidden="true">
                   ✦
                 </span>
-                <h2>Finding your common ground…</h2>
+                <h2>Selecting movies…</h2>
                 <p>
-                  Choosing a lineup and checking runtimes for the whole crew.
-                  This can take a moment.
+                  Selecting movies and checking runtimes for your group. This
+                  can take a moment.
                 </p>
                 <div className="skeleton skeleton-line" />
               </section>
@@ -1046,7 +1060,7 @@ export default function MovieNight() {
           }}
         >
           <div className="night-dialog-heading">
-            <h2 id="night-edit-heading">Make it your kind of night.</h2>
+            <h2 id="night-edit-heading">Edit your preferences</h2>
             <button
               type="button"
               className="collection-close"

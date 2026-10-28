@@ -2,7 +2,7 @@
 
 # Entertainment Hub
 
-### A little less scrolling. A lot more discovering.
+### Movies, TV series, and a place to plan what to watch.
 
 Discover movies and TV series, organize your next watch, and find a movie your whole group wants to see.
 
@@ -82,8 +82,8 @@ Browse the [complete media index](docs/README.md) for direct links to all **19 s
 
 ### Discover your next favorite
 
-- **Cinematic homepage:** up to five featured titles with animated transitions every **5 seconds**, manual selectors, and pause/play controls. Rotation pauses on hover, keyboard interaction, hidden tabs, and open dialogs.
-- **Trending movies and series:** switch between today's and this week's trending titles.
+- **Homepage:** a shorter mobile spotlight with title details and watchlist actions, compact discovery shortcuts, and previews of up to six trending, saved, and recently viewed titles. Featured titles rotate every **5 seconds**, with manual selectors and pause/play controls. Rotation pauses on hover, keyboard interaction, hidden tabs, and open dialogs.
+- **Trending movies and series:** switch between today and this week; open the full, paginated catalog from the homepage. The selected period and page are reflected in the URL.
 - **Movie and TV catalogs:** genre selection, pagination, poster ratings, and release information.
 - **Discovery filters:** original language, release year or first-air year, minimum rating, movie runtime or episode length, and sorting by popularity, rating, or newest release. Filter state is reflected in the URL so a filtered view can be bookmarked or shared.
 - **Search suggestions:** debounced autocomplete, keyboard navigation, separate movie/TV search modes, and up to six recent searches that can be cleared.
@@ -109,13 +109,24 @@ Browse the [complete media index](docs/README.md) for direct links to all **19 s
 
 Collections currently support up to **100 collections**, with up to **1,000 titles per collection**. Browser storage capacity can impose a lower practical limit. When storage is unavailable, the app keeps supported changes in memory for the current visit and shows a notice.
 
+### Streaming services and title preferences
+
+- Open **My streaming services** on Movies, TV Series, Pick for me, or **My library → My titles**. Choose a country and your subscriptions. Selections are remembered separately for each country.
+- **Only my streaming services** filters movie/series discovery and picks to subscription access. Provider filters can be shared through discovery URLs. Rentals and purchases remain separate in title details.
+- Movie-night hosts can use their selected subscriptions for a room. The room keeps that country and provider selection; every candidate, including titles from a collection, is checked for included subscription access before voting.
+- Use **Watched**, **Liked**, and **Not interested** in title details, the picker, or a poster’s **More actions** menu. Changes have an Undo action.
+- Watched titles are skipped in recommendations and hidden by default in Movies/TV catalogs; **Show watched titles** includes them again. Not interested hides titles from discovery and recommendations. Search, existing watchlists, and collections remain accessible.
+- **My titles** lets you review watched, liked, and hidden titles and restore them. Liking and hiding are mutually exclusive; watched status is independent.
+- A **Because you liked…** homepage section uses the most recently updated liked title as its recommendation source, skips watched/hidden/already-liked titles, and checks subscription access when the service filter is enabled.
+- These preferences stay in this browser and synchronize between its tabs. When storage is blocked, changes last for the current visit.
+
 ### Pick for me
 
 Choose **movies or TV series**, a mood or specific genre, an original language, and an optional time limit. The app suggests one title at a time with details, trailer, watchlist, and collection actions.
 
 - Six mood choices, including **Surprise me**, **Make me smile**, **An adventure**, **Keep me guessing**, **Something moving**, and **Another world**.
 - **Try another** avoids repeating titles in the current selection until preferences are reset or changed.
-- Your current pick and preferences stay saved in this browser when you switch sections or reload. Changing preferences keeps the existing pick until you request another; **Clear pick** removes it. Failed or exhausted searches keep the last successful pick.
+- Your current pick and preferences stay saved in this browser when you switch sections or reload. Changing mood, language, or time keeps the existing pick until you request another; changing streaming filters or marking the current pick watched/hidden removes it from the displayed recommendations. **Clear pick** removes it. Failed or exhausted searches keep the last successful pick.
 - Time-limited picks verify title runtime metadata and skip unknown or over-limit runtimes. For TV series, time refers to an episode, not the full series.
 - Loading, empty-selection, and retry states keep the next step clear.
 
@@ -126,7 +137,7 @@ Choose **movies or TV series**, a mood or specific genre, an original language, 
 - **Comfortable or Compact posters** with responsive grid layouts.
 - Instant updates, browser persistence, cross-tab appearance sync, and an appearance reset that preserves the library.
 - Responsive desktop, tablet, and phone layouts; keyboard-accessible controls, focus handling, skip-to-content navigation, reduced-motion styling, loading skeletons, image fallbacks, and useful empty/error states.
-- Creator credit linking to **[Vijay Anand's GitHub](https://github.com/vijayanand1505)** in the header and footer.
+- Creator credit linking to **[Vijay Anand's GitHub](https://github.com/vijayanand1505)** in the footer.
 
 ## Movie Night Match
 
@@ -309,6 +320,8 @@ To run the database concurrency and persistence checks against a test database, 
 | Route                | Screen                                                               |
 | -------------------- | -------------------------------------------------------------------- |
 | `/`                  | Discover, featured slideshow, trending titles, and personal shelves. |
+| `/trending`          | Full trending catalog with daily/weekly selection and pagination. |
+| `/my-titles`         | Streaming preferences and watched, liked, and hidden titles. |
 | `/movies`            | Movie discovery and filters.                                         |
 | `/series`            | TV-series discovery and filters.                                     |
 | `/search`            | Search, autocomplete, and recent searches.                           |
@@ -403,6 +416,7 @@ Entertainment-Hub/
 | Watchlist                           | Browser `localStorage`                   | This browser and app origin; synchronized between its tabs.                 |
 | Recently viewed                     | Browser `localStorage`                   | Last 30 unique titles; clearable with undo.                                 |
 | Collections                         | Browser `localStorage`                   | Local lists; not cloud-synchronized.                                        |
+| Streaming services & title feedback | Browser `localStorage`                   | Country-specific subscriptions and watched/liked/hidden titles.              |
 | Appearance                          | Browser `localStorage`                   | Theme, text size, and poster density.                                       |
 | Recent searches & watch country     | Browser `localStorage`                   | Local convenience preferences.                                              |
 | Pick for me                         | Browser `localStorage`                   | Current pick, preferences, and selection history; clearable with **Clear pick**. |
@@ -423,7 +437,7 @@ npm run build
 
 On PowerShell, set `$env:CI = "true"` before running `npm test -- --watchAll=false --runInBand`.
 
-The current suite contains **46 frontend tests and 10 room-service tests**. Coverage includes persistence, blocked storage, appearance/device-theme changes, discovery parsing, cast-credit handling, player cleanup, slideshow timing, recommendation constraints, room authorization, vote privacy, ranking, restart recovery, and API validation.
+The current suite contains **61 frontend tests and 14 passing room-service tests** (two Postgres integration tests require a configured test database and are skipped without it). Coverage includes persistence, blocked storage, appearance/device-theme changes, discovery parsing, cast-credit handling, player cleanup, slideshow timing, recommendation constraints, room authorization, vote privacy, ranking, restart recovery, and API validation.
 
 The implemented UI has also been checked in separate host/guest browser sessions and at phone, tablet, and desktop widths, including 320px layouts with the largest text setting. These browser checks are not a committed automated Playwright suite.
 
@@ -450,7 +464,7 @@ The implemented UI has also been checked in separate host/guest browser sessions
 - Watching-availability data: **[JustWatch](https://www.justwatch.com/)**, accessed through TMDB.
 - Trailer playback: **[YouTube](https://www.youtube.com/)**.
 - Interface components and icons: **[Material UI](https://v4.mui.com/)**.
-- Typography: **[DM Sans](https://fonts.google.com/specimen/DM+Sans)** and **[Manrope](https://fonts.google.com/specimen/Manrope)**.
+- Typography: **Arial**, with Helvetica and sans-serif fallbacks. At the standard text setting, body text is 16px, most controls are 14px, supporting labels are 12px, and page headings scale from 28px to 36px. Larger text settings scale these sizes throughout the app.
 
 This product uses the TMDB API but is not endorsed or certified by TMDB. TMDB usage remains subject to its [API terms and attribution requirements](https://developer.themoviedb.org/docs/faq). Screenshots illustrate the app; third-party artwork and videos retain their respective ownership.
 

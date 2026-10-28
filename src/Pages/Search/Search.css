@@ -47,7 +47,7 @@
 }
 .search-query {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   text-align: right;
 }
 .search-query strong {
@@ -80,15 +80,13 @@
   font-size: 1.8125rem;
 }
 .search-empty h2 {
-  font:
-    800 1.5625rem/1.4 "Manrope",
-    sans-serif;
-  letter-spacing: -0.7px;
+  font: 700 1.5625rem/1.4 var(--font-sans);
+  letter-spacing: -0.02em;
   margin: 24px 0 10px;
 }
 .search-empty p {
   color: var(--muted);
-  font-size: 0.8125rem;
+  font-size: var(--text-base);
   line-height: 1.7;
   margin: 0 0 25px;
 }
@@ -104,7 +102,7 @@
   border-radius: 7px;
   padding: 10px 13px;
   color: var(--text-secondary);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .search-suggestions button span {
   margin-left: 12px;
@@ -120,11 +118,11 @@
     gap: 8px;
   }
   .search-form input {
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
   }
   .search-form .button {
     padding: 12px 13px;
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
   }
   .search-form .button svg {
     display: none;
@@ -141,7 +139,7 @@
     font-size: 1.3125rem;
   }
   .search-empty p {
-    font-size: 0.75rem;
+    font-size: var(--text-base);
   }
 }
 
@@ -167,11 +165,11 @@
   gap: 15px;
   padding: 15px 17px 12px;
   color: var(--accent);
-  font-size: 0.5625rem;
-  letter-spacing: 1.6px;
+  font-size: var(--text-xs);
+  letter-spacing: normal;
 }
 .suggestion-heading > span {
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   color: var(--muted);
   letter-spacing: 0;
 }
@@ -213,7 +211,7 @@
 .search-dropdown strong {
   display: block;
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -221,7 +219,7 @@
 .search-dropdown small {
   display: block;
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   margin-top: 5px;
 }
 .search-dropdown li > svg {
@@ -233,7 +231,7 @@
   margin: 0;
   padding: 12px 17px 20px;
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
 }
 .recent-searches {
   display: flex;
@@ -241,21 +239,27 @@
   gap: 12px;
   margin: -7px 0 24px;
   flex-wrap: wrap;
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   color: var(--muted);
 }
 .recent-searches > div {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
+  min-width: 0;
+  max-width: 100%;
 }
 .recent-searches button {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: left;
   background: var(--surface);
   color: var(--text-secondary);
   border: 1px solid var(--line);
   border-radius: 5px;
   padding: 6px 9px;
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
 }
 .recent-searches button:hover {
   border-color: var(--accent-border);
@@ -281,7 +285,7 @@
     gap: 10px;
   }
   .search-dropdown strong {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
   }
   .recent-searches {
     gap: 9px;

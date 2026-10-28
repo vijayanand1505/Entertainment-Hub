@@ -15,10 +15,14 @@ import { useTitleModal } from "../../context/TitleModalContext";
 import { useTrailer } from "../../context/TrailerContext";
 import SaveButton from "../../components/SaveButton";
 import CollectionButton from "../../components/CollectionButton";
+import StreamingServices from "../../components/StreamingServices";
+import TitleFeedback from "../../components/TitleFeedback";
+import { usePersonalization } from "../../context/PersonalizationContext";
 import "./Pick.css";
 
 export default function Pick() {
-  const result = usePick();
+  const { feedback, streaming } = usePersonalization();
+  const result = usePick({ feedback, streaming });
   const filters = result.preferences;
   const genreRequest = useTmdb(`genre/${filters.type}/list`);
   const genres = genreRequest.data?.genres || [];
@@ -42,13 +46,9 @@ export default function Pick() {
   return (
     <div className="pick-page">
       <div className="page-heading">
-        <span className="eyebrow">LESS SCROLLING. MORE WATCHING.</span>
-        <h1>
-          Leave the next story to us<span>.</span>
-        </h1>
-        <p>
-          Set the mood. Make a little time. We’ll find something worth a look.
-        </p>
+        <span className="eyebrow">Recommendations</span>
+        <h1>Pick something for me</h1>
+        <p>Choose what you’re in the mood for and how much time you have.</p>
         <Link className="night-pick-link" to="/movie-night">
           <GroupRoundedIcon />
           Choosing with friends? Plan a movie night →
@@ -72,8 +72,8 @@ export default function Pick() {
             aria-label="Pick a movie or series"
           >
             {[
-              ["movie", "Movie night"],
-              ["tv", "A new series"],
+              ["movie", "Movies"],
+              ["tv", "TV series"],
             ].map(([value, label]) => (
               <button
                 type="button"
@@ -110,7 +110,7 @@ export default function Pick() {
           </fieldset>
           <div className="pick-section-label">
             <span>02</span>
-            <h2>A few finishing touches</h2>
+            <h2>Genre, language, and time</h2>
           </div>
           <div className="pick-fields">
             <label>
@@ -155,7 +155,7 @@ export default function Pick() {
                 value={filters.minutes}
                 onChange={(e) => update({ minutes: e.target.value })}
               >
-                <option value="">I have time</option>
+                <option value="">No time limit</option>
                 {(filters.type === "tv"
                   ? [
                       [30, "Up to 30 minutes"],
@@ -175,8 +175,10 @@ export default function Pick() {
               </select>
             </label>
           </div>
+          <StreamingServices />
           <p className="pick-note">
-            Choose a mood or a specific genre. Series time refers to an episode.
+            Watched and hidden titles are skipped. Choose a mood or a specific
+            genre. Series time refers to an episode.
           </p>
           {genreRequest.error && (
             <p className="collection-error" role="alert">
@@ -198,7 +200,7 @@ export default function Pick() {
             }
           >
             <ShuffleRoundedIcon />
-            {result.loading ? "Finding your next story…" : "Pick for me"}
+            {result.loading ? "Finding a match…" : "Pick for me"}
           </button>
         </form>
         <section
@@ -209,14 +211,14 @@ export default function Pick() {
           {result.loading ? (
             <div className="pick-waiting" role="status">
               <ShuffleRoundedIcon className="pick-loading-icon" />
-              <h2>Finding your kind of story…</h2>
-              <p>A little inspiration is on its way.</p>
+              <h2>Finding a match…</h2>
+              <p>Checking titles against your preferences.</p>
               <div className="skeleton skeleton-line" />
             </div>
           ) : result.error && !item ? (
             <div className="pick-waiting" role="alert">
               <ShuffleRoundedIcon />
-              <h2>A brief intermission.</h2>
+              <h2>Couldn’t load a recommendation</h2>
               <p>
                 We couldn’t find a pick right now. Check your connection and try
                 again.
@@ -228,7 +230,7 @@ export default function Pick() {
           ) : result.empty && !item ? (
             <div className="pick-waiting" role="status">
               <ShuffleRoundedIcon />
-              <h2>Let’s open up the possibilities.</h2>
+              <h2>No new matches</h2>
               <p>
                 No new matches in this selection. Try another mood, allow more
                 time, or reset to start fresh.
@@ -277,13 +279,11 @@ export default function Pick() {
                 )}
                 {result.empty && (
                   <p className="pick-note" role="status">
-                    No new matches in this selection. Your current pick is
-                    still here. Try changing your preferences.
+                    No new matches in this selection. Your current pick is still
+                    here. Try changing your preferences.
                   </p>
                 )}
-                <span className="eyebrow">
-                  TONIGHT’S POSSIBILITIES START HERE
-                </span>
+                <span className="eyebrow">Your recommendation</span>
                 <h2 ref={resultHeading} tabIndex={-1}>
                   {resultTitle}
                 </h2>
@@ -313,7 +313,8 @@ export default function Pick() {
                 <p className="pick-match">
                   {matchFilters.genre
                     ? result.genreName
-                    : MOODS.find((mood) => mood.value === matchFilters.mood)?.label}
+                    : MOODS.find((mood) => mood.value === matchFilters.mood)
+                        ?.label}
                   {matchFilters.language
                     ? ` · ${LANGUAGES.find(([code]) => code === matchFilters.language)?.[1]}`
                     : ""}
@@ -323,7 +324,7 @@ export default function Pick() {
                 </p>
                 <p className="pick-overview">
                   {item.overview ||
-                    "A new story is waiting. Explore its details to learn more."}
+                    "No synopsis available. Open the details to learn more."}
                 </p>
                 <div className="pick-result-actions">
                   <button
@@ -336,7 +337,7 @@ export default function Pick() {
                     }
                   >
                     <InfoOutlinedIcon />
-                    Explore title
+                    View details
                   </button>
                   <button
                     className="button button-secondary"
@@ -354,9 +355,10 @@ export default function Pick() {
                   <SaveButton item={item} />
                   <CollectionButton item={item} />
                 </div>
+                <TitleFeedback item={item} />
                 <button className="pick-again" onClick={run}>
                   <ShuffleRoundedIcon />
-                  Not the one? Try another
+                  Try another
                 </button>
                 <button
                   className="text-button pick-clear"
@@ -371,16 +373,16 @@ export default function Pick() {
               <div className="pick-orbit" aria-hidden="true">
                 <span>✦</span>
               </div>
-              <span className="eyebrow">A LITTLE MOVIE-NIGHT MAGIC</span>
-              <h2>Your next favorite is out there.</h2>
+              <span className="eyebrow">Getting started</span>
+              <h2>Ready for a suggestion?</h2>
               <p>
-                Tell us what feels right. We’ll surprise you with a movie or
-                series, one story at a time.
+                Choose your preferences, then select Pick for me to get a movie
+                or series recommendation.
               </p>
               <div className="pick-empty-tags">
                 <span>Choose a mood</span>
-                <span>Find your story</span>
-                <span>Make a night of it</span>
+                <span>Set a time limit</span>
+                <span>Get a suggestion</span>
               </div>
             </div>
           )}

@@ -17,9 +17,9 @@ import "./Person.css";
 function MissingPerson() {
   return (
     <div className="catalog-state">
-      <span className="eyebrow">BEHIND EVERY GREAT STORY</span>
+      <span className="eyebrow">Profile unavailable</span>
       <h1>This profile isn’t available.</h1>
-      <p>Discover another story and meet the people who bring it to life.</p>
+      <p>Check the link or open a cast profile from another title.</p>
       <Link className="button" to="/">
         Back to Discover
       </Link>
@@ -63,7 +63,7 @@ function PersonProfile({ id, from, fromTitle }) {
       </nav>
       {profile.error ? (
         <div className="catalog-state" role="alert">
-          <h1>A brief intermission</h1>
+          <h1>Couldn’t load profile</h1>
           <p>We couldn’t load this profile. Please try again.</p>
           <button className="button" onClick={profile.retry}>
             Try again
@@ -71,7 +71,7 @@ function PersonProfile({ id, from, fromTitle }) {
         </div>
       ) : !person ? (
         <div className="person-loading" role="status">
-          <h1>Meeting the cast…</h1>
+          <h1>Loading profile…</h1>
           <div className="skeleton" />
           <span>Loading profile and credits</span>
         </div>
@@ -92,7 +92,7 @@ function PersonProfile({ id, from, fromTitle }) {
               }}
             />
             <div className="person-intro">
-              <span className="eyebrow">THE PEOPLE BEHIND THE STORIES</span>
+              <span className="eyebrow">Cast and crew</span>
               <h1 id="person-name">{person.name}</h1>
               <div className="person-meta">
                 {person.known_for_department && (
@@ -162,7 +162,7 @@ function PersonProfile({ id, from, fromTitle }) {
             <div className="section-heading">
               <div>
                 <h2 id="filmography-heading">
-                  More of their story<span className="heading-dot">.</span>
+                  Movies and series
                 </h2>
                 <p>Explore movies and series featuring {person.name}.</p>
               </div>

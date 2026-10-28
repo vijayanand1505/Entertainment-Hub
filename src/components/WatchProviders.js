@@ -1,14 +1,8 @@
-import { useState } from "react";
+import { usePersonalization } from "../context/PersonalizationContext";
+import { FALLBACK_REGIONS as fallbackRegions } from "../utils/personalization";
 import OpenInNewRoundedIcon from "@material-ui/icons/OpenInNewRounded";
 import useTmdb from "../hooks/useTmdb";
 
-const fallbackRegions = [
-  { iso_3166_1: "IN", english_name: "India" },
-  { iso_3166_1: "US", english_name: "United States" },
-  { iso_3166_1: "GB", english_name: "United Kingdom" },
-  { iso_3166_1: "CA", english_name: "Canada" },
-  { iso_3166_1: "AU", english_name: "Australia" },
-];
 const groups = [
   ["flatrate", "Stream with subscription"],
   ["free", "Watch free"],
@@ -16,16 +10,8 @@ const groups = [
   ["rent", "Rent"],
   ["buy", "Buy"],
 ];
-const initialRegion = () => {
-  try {
-    const stored = localStorage.getItem("eh-watch-region");
-    return /^[A-Z]{2}$/.test(stored || "") ? stored : "IN";
-  } catch {
-    return "IN";
-  }
-};
 export default function WatchProviders({ id, type }) {
-  const [region, setRegion] = useState(initialRegion);
+  const { region, setRegion } = usePersonalization();
   const providers = useTmdb(`${type}/${id}/watch/providers`);
   const regions = useTmdb("watch/providers/regions");
   const countries = [...(regions.data?.results || fallbackRegions)].sort(
@@ -39,9 +25,6 @@ export default function WatchProviders({ id, type }) {
   );
   const changeRegion = (event) => {
     setRegion(event.target.value);
-    try {
-      localStorage.setItem("eh-watch-region", event.target.value);
-    } catch {}
   };
   return (
     <section
@@ -50,7 +33,7 @@ export default function WatchProviders({ id, type }) {
     >
       <div className="detail-section-heading">
         <div>
-          <span className="eyebrow">MAKE IT A MOVIE NIGHT</span>
+          <span className="eyebrow">Streaming and rental</span>
           <h3 id={`watch-heading-${type}-${id}`}>Where to watch</h3>
         </div>
         <label className="watch-region">

@@ -37,9 +37,9 @@ function CollectionEditor({ draft, onClose, onSave }) {
       >
         <div className="collection-dialog-heading">
           <div>
-            <span className="eyebrow">CURATED BY YOU</span>
+            <span className="eyebrow">My library</span>
             <h2 id="collection-editor-heading">
-              {draft ? "Edit collection" : "Make room for good stories."}
+              {draft ? "Edit collection" : "Create a collection"}
             </h2>
           </div>
           <button
@@ -143,18 +143,18 @@ export default function Collections() {
   return (
     <div className="collections-page">
       <div className="page-heading">
-        <span className="eyebrow">CURATED BY YOU</span>
+        <span className="eyebrow">My library</span>
         <h1>
           {selected
             ? selected.name
             : id
               ? "Collection unavailable"
-              : "Every mood deserves a collection."}
+              : "Your collections"}
         </h1>
         <p>
           {selected
-            ? selected.description || "A collection of stories, chosen by you."
-            : "Your weekend lineup, comfort watches, and everything in between."}
+            ? selected.description || "Movies and series in this collection."
+            : "Organize movies and series into your own lists."}
         </p>
       </div>
       <LibraryTabs />
@@ -234,7 +234,7 @@ export default function Collections() {
                 <input
                   type="search"
                   aria-label="Search this collection"
-                  placeholder="Find a story in this collection…"
+                  placeholder="Search this collection…"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
@@ -287,7 +287,7 @@ export default function Collections() {
               <span className="library-empty-icon">
                 <FolderOutlinedIcon />
               </span>
-              <h2>Your collection starts with one great story.</h2>
+              <h2>This collection is empty</h2>
               <p>
                 Use the collection action on any poster or title page to add
                 your first pick.
@@ -354,9 +354,9 @@ export default function Collections() {
                       </span>
                       <h2>{entry.name}</h2>
                       <p>
-                        {entry.description || "Good stories, all in one place."}
+                        {entry.description || "View the titles in this collection."}
                       </p>
-                      <strong>Explore collection →</strong>
+                      <strong>View collection →</strong>
                     </div>
                   </Link>
                   <div className="collection-card-tools">
@@ -383,10 +383,9 @@ export default function Collections() {
               <span className="library-empty-icon">
                 <FolderOutlinedIcon />
               </span>
-              <h2>Make a list for every kind of night.</h2>
+              <h2>Create your first collection</h2>
               <p>
-                Keep your favorites together. Try “Weekend movies”, “Family
-                night”, or “Worth a rewatch”.
+                Group titles into lists such as “Weekend movies” or “Family night”.
               </p>
               <button className="button" onClick={() => setEditor({})}>
                 <AddRoundedIcon />

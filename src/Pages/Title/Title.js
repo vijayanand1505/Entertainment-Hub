@@ -7,9 +7,9 @@ import "./Title.css";
 export function TitleNotFound() {
   return (
     <div className="catalog-state">
-      <span className="eyebrow">A STORY STILL TO BE DISCOVERED</span>
-      <h1>This title link doesn’t look right.</h1>
-      <p>Find something new in our collection of movies and TV series.</p>
+      <span className="eyebrow">Page unavailable</span>
+      <h1>Title not found</h1>
+      <p>Check the link or browse movies and series.</p>
       <Link className="button" to="/">
         Back to Discover
       </Link>

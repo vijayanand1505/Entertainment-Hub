@@ -160,6 +160,7 @@ function view(room, self) {
     memberCount: room.members.length,
     expiresAt: room.expiresAt,
     round: room.round,
+    streaming: room.streaming || null,
   };
   if (!self) return { ...preview, preview: true };
   let shared = null;
@@ -260,6 +261,19 @@ class RoomService {
     if (!name || !displayName)
       fail(400, "Give your movie night and yourself a name.");
     const prefs = preferences(body.preferences);
+    let streaming = null;
+    if (body.streaming != null) {
+      const { region, providers } = body.streaming;
+      if (
+        !/^[A-Z]{2}$/.test(region || "") ||
+        !Array.isArray(providers) ||
+        !providers.length ||
+        providers.length > 50 ||
+        providers.some((id) => !Number.isSafeInteger(id) || id <= 0)
+      )
+        fail(400, "Choose a country and valid streaming services.");
+      streaming = { region, providers: [...new Set(providers)] };
+    }
     const token = secret();
     const code = crypto.randomBytes(5).toString("hex");
     const id = crypto.randomBytes(8).toString("hex");
@@ -283,6 +297,7 @@ class RoomService {
       createdAt: Date.now(),
       expiresAt: Date.now() + 24 * 60 * 60 * 1000,
       source,
+      streaming,
       members: [
         {
           id,

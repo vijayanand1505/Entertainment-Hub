@@ -16,7 +16,7 @@
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   font-weight: 600;
 }
 .filter-heading svg {
@@ -30,7 +30,7 @@
   height: 20px;
   background: var(--accent-soft);
   color: var(--accent);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   border-radius: 5px;
 }
 .filter-heading button {
@@ -38,7 +38,7 @@
   background: none;
   padding: 5px 0;
   color: var(--accent);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .filter-heading button span {
   margin-left: 5px;
@@ -52,7 +52,7 @@
   display: flex;
   flex-direction: column;
   gap: 9px;
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   color: var(--muted);
   min-width: 0;
 }
@@ -63,9 +63,7 @@
   border-radius: 7px;
   padding: 11px 9px;
   width: 100%;
-  font:
-    500 0.75rem "DM Sans",
-    sans-serif;
+  font: 400 var(--text-sm)/1.5 var(--font-sans);
   color: var(--text);
   cursor: pointer;
   min-width: 0;
@@ -76,12 +74,12 @@
   outline-offset: 3px;
 }
 .filter-note {
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   color: var(--muted);
   margin: 16px 0 0;
 }
 .discovery-summary {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--muted);
   margin: -3px 0 22px;
   min-height: 16px;
@@ -103,17 +101,17 @@
     grid-column: 1 / -1;
   }
   .filter-heading > span {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     gap: 6px;
   }
   .filter-heading {
     align-items: flex-start;
   }
   .filter-heading button {
-    font-size: 0.625rem;
+    font-size: var(--text-xs);
     white-space: nowrap;
   }
   .filter-fields select {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
   }
 }

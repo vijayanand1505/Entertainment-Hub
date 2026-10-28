@@ -322,3 +322,94 @@ test("HTTP room API keeps anonymous previews private and rejects unauthenticated
     await new Promise((resolve) => server.close(resolve));
   }
 });
+
+test("movie-night rooms validate and retain the host's subscription filter", () => {
+  const app = service();
+  const result = app.create({
+    name: "Subscriptions",
+    displayName: "Host",
+    preferences: prefs(),
+    streaming: { region: "IN", providers: [8, 9, 8] },
+  });
+  assert.deepEqual(result.room.streaming, { region: "IN", providers: [8, 9] });
+  assert.deepEqual(app.get(result.room.code).streaming, result.room.streaming);
+  for (const streaming of [
+    { region: "invalid", providers: [8] },
+    { region: "IN", providers: [-1] },
+    { region: "IN", providers: [] },
+  ]) {
+    assert.throws(
+      () =>
+        app.create({
+          name: "Invalid",
+          displayName: "Host",
+          preferences: prefs(),
+          streaming,
+        }),
+      (e) => e.status === 400,
+    );
+  }
+});
+test("collection movie nights exclude rentals and availability in another country", async () => {
+  const members = [{ preferences: prefs() }];
+  const transport = {
+    get: async (url) => {
+      const id = Number(url.match(/movie\/(\d+)/)?.[1]);
+      if (url.endsWith("/watch/providers"))
+        return {
+          data: {
+            results:
+              id === 1
+                ? { IN: { rent: [{ provider_id: 8 }] } }
+                : id === 2
+                  ? { IN: { flatrate: [{ provider_id: 8 }] } }
+                  : { US: { flatrate: [{ provider_id: 8 }] } },
+          },
+        };
+      return { data: movie(id) };
+    },
+  };
+  const result = await createCatalog(
+    "test-key",
+    transport,
+  )({
+    source: { ids: [1, 2, 3] },
+    members,
+    shared: constraints(members),
+    streaming: { region: "IN", providers: [8] },
+  });
+  assert.deepEqual(
+    result.map((item) => item.id),
+    [2],
+  );
+});
+test("group discovery sends an OR filter for subscriptions and verifies the returned title", async () => {
+  const members = [{ preferences: prefs() }];
+  let discover;
+  const transport = {
+    get: async (url, options) => {
+      if (url.endsWith("discover/movie")) {
+        discover = options.params;
+        return { data: { results: [{ id: 2 }] } };
+      }
+      if (url.endsWith("watch/providers"))
+        return {
+          data: { results: { IN: { flatrate: [{ provider_id: 9 }] } } },
+        };
+      return { data: movie(2) };
+    },
+  };
+  const result = await createCatalog(
+    "test-key",
+    transport,
+  )({
+    source: null,
+    members,
+    shared: constraints(members),
+    streaming: { region: "IN", providers: [8, 9] },
+  });
+  assert.equal(discover.watch_region, "IN");
+  assert.equal(discover.with_watch_providers, "8|9");
+  assert.equal(discover.with_watch_monetization_types, "flatrate");
+  assert.equal(result.length, 1);
+});

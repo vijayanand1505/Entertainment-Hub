@@ -3,7 +3,7 @@ import BookmarkRoundedIcon from "@material-ui/icons/BookmarkRounded";
 import { useLibrary } from "../context/LibraryContext";
 import { titleKey } from "../utils/library";
 
-export default function SaveButton({ item, compact = false }) {
+export default function SaveButton({ item, compact = false, shortLabel = false }) {
   const { watchlist, toggleSaved } = useLibrary();
   const saved = watchlist.some((entry) => titleKey(entry) === titleKey(item));
   const label = `${saved ? "Remove" : "Add"} ${item.title || item.name} ${saved ? "from" : "to"} watchlist`;
@@ -22,7 +22,15 @@ export default function SaveButton({ item, compact = false }) {
     >
       {saved ? <BookmarkRoundedIcon /> : <BookmarkBorderRoundedIcon />}
       {!compact && (
-        <span>{saved ? "In your watchlist" : "Add to watchlist"}</span>
+        <span>
+          {shortLabel
+            ? saved
+              ? "Saved"
+              : "Save"
+            : saved
+              ? "In your watchlist"
+              : "Add to watchlist"}
+        </span>
       )}
     </button>
   );

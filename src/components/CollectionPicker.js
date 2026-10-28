@@ -38,7 +38,7 @@ export default function CollectionPicker({
           <PlaylistAddRoundedIcon />
         </span>
         <div>
-          <span className="eyebrow">A PLACE FOR EVERY STORY</span>
+          <span className="eyebrow">My library</span>
           <h2 id="collection-picker-heading">Add to a collection</h2>
         </div>
         <button
@@ -58,7 +58,7 @@ export default function CollectionPicker({
       <div className="collection-picker-list">
         {!collections.length && (
           <p className="collection-help">
-            Your first collection starts here. Give it a name below.
+            Enter a name below to create your first collection.
           </p>
         )}
         {collections.map((entry) => {

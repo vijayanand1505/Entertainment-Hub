@@ -101,7 +101,7 @@ export function AppearanceProvider({ children }) {
           },
         },
         typography: {
-          fontFamily: '"DM Sans", sans-serif',
+          fontFamily: "Arial, Helvetica, sans-serif",
           button: { textTransform: "none", fontWeight: 600 },
         },
         shape: { borderRadius: 12 },

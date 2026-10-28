@@ -11,7 +11,7 @@
 }
 .collection-page-actions p {
   color: var(--muted);
-  font-size: 0.8125rem;
+  font-size: var(--text-base);
   margin: 0;
 }
 .collection-grid {
@@ -73,17 +73,17 @@
   padding: 22px;
 }
 .collection-card-copy > span {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--muted);
 }
 .collection-card-copy h2 {
-  font-family: Manrope, sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.25rem;
   margin: 7px 0;
   overflow-wrap: anywhere;
 }
 .collection-card-copy p {
-  font-size: 0.8125rem;
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.7;
   margin: 0 0 18px;
@@ -94,7 +94,7 @@
   overflow-wrap: anywhere;
 }
 .collection-card-copy strong {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   color: var(--accent);
 }
 .collection-card-tools {
@@ -137,15 +137,15 @@
   padding: 25px 25px 0;
 }
 .collection-dialog-heading h2 {
-  font-family: Manrope, sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.375rem;
   line-height: 1.35;
   margin: 5px 0 0;
   overflow-wrap: anywhere;
 }
 .collection-dialog-heading .eyebrow {
-  font-size: 0.5rem;
-  letter-spacing: 1.5px;
+  font-size: var(--text-xs);
+  letter-spacing: normal;
 }
 .collection-dialog-icon {
   display: grid;
@@ -173,7 +173,7 @@
   font-size: 1.125rem;
 }
 .collection-dialog-description {
-  font-size: 0.8125rem;
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.8;
   margin: 16px 25px;
@@ -198,12 +198,12 @@
 }
 .collection-picker-row strong {
   display: block;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   overflow-wrap: anywhere;
 }
 .collection-picker-row small {
   display: block;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--muted);
   margin-top: 4px;
 }
@@ -225,7 +225,7 @@
 .collection-create-inline > label {
   display: block;
   margin-bottom: 10px;
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   font-weight: 600;
 }
 .collection-create-inline > div {
@@ -242,17 +242,17 @@
   padding: 12px;
   color: var(--text);
   font: inherit;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
 }
 .collection-create-inline button {
   flex-shrink: 0;
   padding: 11px 14px;
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
 }
 .collection-help {
   margin: 14px 25px;
   color: var(--muted);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   line-height: 1.7;
 }
 .collection-picker-list > .collection-help {
@@ -260,7 +260,7 @@
 }
 .collection-error {
   color: var(--accent);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   line-height: 1.6;
 }
 .collection-dialog-footer {
@@ -278,7 +278,7 @@
 .collection-editor-fields > label {
   display: block;
   margin-bottom: 20px;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   font-weight: 600;
 }
 .collection-editor-fields > label > span {
@@ -300,7 +300,7 @@
   margin: 0;
 }
 .collection-editor-fields legend {
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   margin-bottom: 12px;
 }
 .collection-swatches {
@@ -334,7 +334,7 @@
   outline-offset: 4px;
 }
 .collection-swatches span {
-  font-weight: 800;
+  font-weight: 700;
 }
 .collection-remove {
   display: flex;
@@ -347,7 +347,7 @@
   background: none;
   border: 0;
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   line-height: 1.4;
 }
 .collection-remove:hover {
@@ -381,14 +381,14 @@
     width: 25%;
   }
   .collection-page-actions .button {
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
     padding: 11px 14px;
   }
   .library-tabs {
     gap: 8px 16px;
   }
   .library-tabs a {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     gap: 5px;
   }
   .library-tabs svg {
@@ -402,7 +402,7 @@
     font-size: 1.125rem;
   }
   .collection-dialog-heading .eyebrow {
-    font-size: 0.4375rem;
+    font-size: var(--text-xs);
   }
   .collection-dialog-icon {
     width: 32px;

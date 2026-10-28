@@ -1,3 +1,4 @@
+import { applyStreamingParams } from "./personalization";
 import { normalizeTitle, titleKey } from "./library";
 export const MOODS = [
   { value: "any", label: "Surprise me", symbol: "✦", genres: [] },
@@ -54,6 +55,7 @@ export function buildPickPath(
     "with_runtime.gte": "1",
     page: String(page),
   });
+  applyStreamingParams(params, filters.streaming);
   params.set(
     type === "movie" ? "primary_release_date.lte" : "first_air_date.lte",
     today,

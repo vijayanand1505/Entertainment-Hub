@@ -4,7 +4,7 @@
   justify-content: space-between;
   gap: 20px;
   margin: 0 0 24px;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--muted);
 }
 .title-breadcrumb a {
@@ -33,10 +33,8 @@
   height: 450px;
 }
 .title-page .detail-info > h1 {
-  font:
-    800 clamp(2rem, 4vw, 3.0625rem)/1.15 "Manrope",
-    sans-serif;
-  letter-spacing: -1.7px;
+  font: 700 var(--heading-page)/1.15 var(--font-sans);
+  letter-spacing: -0.02em;
   margin: 12px 0 20px;
 }
 .title-page .detail-info > h1:focus {
@@ -46,7 +44,7 @@
   margin: 0 45px 35px;
 }
 .title-page .detail-overview {
-  font-size: 0.875rem;
+  font-size: var(--text-base);
 }
 .title-page .related-grid {
   grid-auto-columns: 160px;
@@ -59,7 +57,7 @@
   margin-top: 23px;
 }
 .detail-actions .button {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   padding: 11px 14px;
   min-height: 42px;
 }
@@ -80,7 +78,7 @@
   width: 240px;
   max-width: 100%;
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   line-height: 1.7;
 }
 .share-manual input {
@@ -89,7 +87,7 @@
   border-radius: 6px;
   background: var(--bg);
   color: var(--text);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   padding: 10px;
   width: 100%;
   margin-top: 6px;
@@ -97,7 +95,7 @@
 .detail-page-link {
   display: inline-flex;
   margin-top: 19px;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .sr-only {
   position: absolute;
@@ -132,11 +130,11 @@
     margin: 0 23px 25px;
   }
   .title-page .detail-info > h1 {
-    font-size: 2.125rem;
-    letter-spacing: -1.2px;
+    font-size: var(--heading-page);
+    letter-spacing: -0.02em;
   }
   .title-page .detail-overview {
-    font-size: 0.75rem;
+    font-size: var(--text-base);
   }
   .title-page .details-backdrop {
     height: 300px;
@@ -149,10 +147,10 @@
     border-radius: 13px;
   }
   .title-breadcrumb {
-    font-size: 0.625rem;
+    font-size: var(--text-xs);
   }
   .detail-actions .button {
-    font-size: 0.625rem;
+    font-size: var(--text-xs);
     padding: 11px 12px;
   }
 }

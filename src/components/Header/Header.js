@@ -1,7 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
-import CreatorCredit from "../CreatorCredit";
 import { useLibrary } from "../../context/LibraryContext";
 import AppearanceControl from "../AppearanceControl";
 import "./Header.css";
@@ -20,10 +19,16 @@ const Header = () => {
               Entertainment<span className="brand-accent">Hub</span>
             </span>
           </Link>
-          <CreatorCredit compact />
         </div>
         <nav className="desktop-nav" aria-label="Main navigation">
-          <NavLink exact to="/" activeClassName="active">
+          <NavLink
+            exact
+            to="/"
+            activeClassName="active"
+            isActive={(_, location) =>
+              ["/", "/trending"].includes(location.pathname)
+            }
+          >
             Discover
           </NavLink>
           <NavLink to="/movies" activeClassName="active">
@@ -42,7 +47,7 @@ const Header = () => {
             to="/watchlist"
             activeClassName="active"
             isActive={(_, location) =>
-              ["/watchlist", "/recently-viewed"].includes(location.pathname) ||
+              ["/watchlist", "/recently-viewed", "/my-titles"].includes(location.pathname) ||
               location.pathname.startsWith("/collections")
             }
           >
@@ -59,7 +64,7 @@ const Header = () => {
             aria-label="Search movies and TV series"
           >
             <SearchRoundedIcon />
-            <span>Find your next favorite</span>
+            <span>Search titles</span>
             <span className="search-hint">Search</span>
           </Link>
           <AppearanceControl />

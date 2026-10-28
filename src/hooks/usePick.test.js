@@ -158,7 +158,10 @@ test("restores the current pick and repeat history after leaving and returning",
   axios.get.mockResolvedValue({
     data: {
       total_pages: 1,
-      results: [{ id: 1, title: "One" }, { id: 2, title: "Two" }],
+      results: [
+        { id: 1, title: "One" },
+        { id: 2, title: "Two" },
+      ],
     },
   });
   const firstVisit = render(<Controls />);
@@ -199,7 +202,9 @@ test("a failed or exhausted retry preserves the saved successful pick", async ()
   await waitFor(() =>
     expect(screen.getByLabelText("Status").textContent).toBe("error"),
   );
-  expect(JSON.parse(localStorage.getItem(PICK_SESSION_KEY)).item.title).toBe("Keep this");
+  expect(JSON.parse(localStorage.getItem(PICK_SESSION_KEY)).item.title).toBe(
+    "Keep this",
+  );
   fireEvent.click(screen.getByText("Pick"));
   await waitFor(() =>
     expect(screen.getByLabelText("Status").textContent).toBe("empty"),
@@ -215,9 +220,12 @@ test("navigation cancels an unfinished replacement without overwriting the saved
     .mockResolvedValueOnce({
       data: { total_pages: 1, results: [{ id: 1, title: "Original" }] },
     })
-    .mockImplementationOnce(() => new Promise((resolve) => {
-      resolveReplacement = resolve;
-    }));
+    .mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveReplacement = resolve;
+        }),
+    );
   const visit = render(<Controls />);
   fireEvent.click(screen.getByText("Pick"));
   await waitFor(() =>
@@ -255,4 +263,56 @@ test("invalid saved data is ignored and unavailable storage does not break picki
   await waitFor(() =>
     expect(screen.getByLabelText("Status").textContent).toBe("Still works"),
   );
+});
+
+test("picks skip watched and hidden titles and verify subscription access instead of rentals", async () => {
+  const results = [
+    { id: 1, title: "Watched" },
+    { id: 2, title: "Hidden" },
+    { id: 3, title: "Rental" },
+    { id: 4, title: "Included" },
+  ];
+  axios.get.mockImplementation((url) =>
+    Promise.resolve({
+      data: url.includes("/discover/")
+        ? { total_pages: 1, results }
+        : {
+            results: {
+              IN: url.includes("/movie/3/")
+                ? { rent: [{ provider_id: 8 }] }
+                : { flatrate: [{ provider_id: 8 }] },
+            },
+          },
+    }),
+  );
+  function Personalized() {
+    const state = usePick({
+      streaming: { region: "IN", providers: [8] },
+      feedback: [
+        { id: 1, media_type: "movie", watched: true },
+        { id: 2, media_type: "movie", hidden: true },
+      ],
+    });
+    return (
+      <>
+        <button onClick={() => state.pick(filters, [])}>
+          Personalized pick
+        </button>
+        <output aria-label="Personalized result">{state.item?.title}</output>
+      </>
+    );
+  }
+  render(<Personalized />);
+  fireEvent.click(screen.getByText("Personalized pick"));
+  await waitFor(() =>
+    expect(screen.getByLabelText("Personalized result").textContent).toBe(
+      "Included",
+    ),
+  );
+  expect(axios.get.mock.calls[0][0]).toContain(
+    "with_watch_monetization_types=flatrate",
+  );
+  expect(
+    axios.get.mock.calls.some(([url]) => /movie\/[12]\/watch/.test(url)),
+  ).toBe(false);
 });

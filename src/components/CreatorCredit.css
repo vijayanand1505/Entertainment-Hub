@@ -1,82 +1,26 @@
 .creator-credit {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
+  margin-top: 16px;
   color: var(--muted);
-  font-family: "DM Sans", sans-serif;
-  transition:
-    color 0.2s,
-    border-color 0.2s,
-    background 0.2s;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: 1.6;
 }
-.creator-credit-compact {
-  position: absolute;
-  left: 49px;
-  bottom: 0;
-  gap: 5px;
-  padding: 2px 0;
-  font-size: 0.625rem;
-  line-height: 1.4;
+.creator-credit > svg {
+  font-size: 1rem;
+  flex-shrink: 0;
 }
-.creator-credit-compact strong {
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-.creator-credit-compact svg {
-  font-size: 0.6875rem;
-  margin-left: 2px;
-}
-.creator-credit-compact:hover,
-.creator-credit-compact:hover strong {
-  color: var(--accent);
-}
-.creator-credit-full {
-  gap: 12px;
-  margin-top: 18px;
-  padding: 11px 15px 11px 11px;
-  border: 1px solid var(--accent-border);
-  border-radius: 9px;
-  background: var(--accent-glow);
-}
-.creator-credit-full:hover {
-  border-color: var(--accent-border);
-  background: var(--accent-soft);
-}
-.creator-github-icon {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-.creator-github-icon svg {
-  font-size: 1.1875rem;
-}
-.creator-credit-full small {
-  display: block;
-  color: var(--muted);
-  font-size: 0.5rem;
-  letter-spacing: 1.4px;
-  line-height: 1.5;
-  margin-bottom: 3px;
-}
-.site-footer .creator-credit-full strong {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--accent);
-  font:
-    600 0.8125rem/1.4 "DM Sans",
-    sans-serif;
-  letter-spacing: 0;
-}
-.creator-credit-full strong svg {
+.creator-credit > svg:last-child {
   font-size: 0.75rem;
 }
-@media (max-width: 650px) {
-  .creator-credit-compact {
-    left: 43px;
-    font-size: 0.5625rem;
-  }
+.site-footer .creator-credit strong {
+  color: var(--text-secondary);
+  font-size: inherit;
+  letter-spacing: normal;
+  transition: color 0.2s;
+}
+.site-footer .creator-credit a:hover strong {
+  color: var(--accent);
 }

@@ -7,12 +7,13 @@ export default function CatalogGrid({
   error,
   retry,
   mediaType,
+  limit,
 }) {
   if (error)
     return (
       <div className="catalog-state" role="alert">
         <MovieFilterOutlinedIcon />
-        <h2>A brief intermission</h2>
+        <h2>Couldn’t load titles</h2>
         <p>We couldn’t load the titles. Check your connection and try again.</p>
         <button className="button" onClick={retry}>
           Try again
@@ -34,14 +35,14 @@ export default function CatalogGrid({
       aria-label={loading ? "Loading titles" : "Titles"}
     >
       {loading
-        ? Array.from({ length: 12 }, (_, i) => (
+        ? Array.from({ length: limit || 12 }, (_, i) => (
             <div key={i} aria-hidden="true">
               <div className="skeleton skeleton-poster" />
               <div className="skeleton skeleton-line" />
               <div className="skeleton skeleton-line short" />
             </div>
           ))
-        : content.map((item) => (
+        : content.slice(0, limit).map((item) => (
             <SingleContent
               key={`${item.media_type || mediaType}-${item.id}`}
               id={item.id}

@@ -5,6 +5,7 @@ import FolderOutlinedIcon from "@material-ui/icons/FolderOutlined";
 import { useLibrary } from "../context/LibraryContext";
 import { useCollections } from "../context/CollectionsContext";
 import "../Pages/Library/Library.css";
+import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 export default function LibraryTabs() {
   const { watchlist, recentlyViewed } = useLibrary();
   const { collections } = useCollections();
@@ -21,6 +22,10 @@ export default function LibraryTabs() {
       <NavLink to="/collections" activeClassName="active">
         <FolderOutlinedIcon />
         Collections<span>{collections.length}</span>
+      </NavLink>
+      <NavLink to="/my-titles" activeClassName="active">
+        <FavoriteBorderRoundedIcon />
+        My titles
       </NavLink>
     </nav>
   );

@@ -23,14 +23,9 @@
   display: inline-flex;
   align-items: center;
   gap: 11px;
-  font:
-    800 19px/1.15 "Manrope",
-    sans-serif;
-  letter-spacing: -0.8px;
+  font: 700 19px/1.15 var(--font-sans);
+  letter-spacing: -0.02em;
   flex-shrink: 0;
-}
-.brand > span:last-child {
-  padding-bottom: 15px;
 }
 .brand-icon {
   width: 38px;
@@ -40,11 +35,9 @@
   color: var(--primary-text);
   display: grid;
   place-items: center;
-  transform: rotate(-5deg);
 }
 .brand-icon svg {
   font-size: 1.8125rem;
-  transform: rotate(5deg);
 }
 .brand-accent {
   color: var(--accent);
@@ -60,7 +53,7 @@
   align-items: center;
   height: 100%;
   position: relative;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--muted);
   transition: color 0.2s;
@@ -88,14 +81,14 @@
   padding: 11px 13px;
   border-radius: 9px;
   color: var(--muted);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .header-search > svg {
   font-size: 1.125rem;
 }
 .header-search .search-hint {
   margin-left: 15px;
-  font-size: 0.5625rem;
+  font-size: var(--text-xs);
   padding: 2px 5px;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -163,7 +156,7 @@
     gap: 4px;
     align-items: center;
     color: var(--muted);
-    font-size: 0.625rem;
+    font-size: var(--text-xs);
     width: 20%;
     border-radius: 7px;
     padding: 3px;
@@ -185,5 +178,5 @@
   border-radius: 5px;
   color: var(--accent);
   background: var(--accent-soft);
-  font-size: 0.5625rem;
+  font-size: var(--text-xs);
 }

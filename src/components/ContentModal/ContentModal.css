@@ -1,5 +1,6 @@
 .MuiDialog-paper.details-dialog {
   width: min(980px, calc(100% - 40px));
+  max-width: calc(100% - 40px);
   max-height: calc(100% - 48px);
   margin: 24px;
   background: var(--panel);
@@ -63,17 +64,15 @@
   min-width: 0;
 }
 .detail-info > h2 {
-  font:
-    800 2.125rem/1.2 "Manrope",
-    sans-serif;
-  letter-spacing: -1.2px;
+  font: 700 2.125rem/1.2 var(--font-sans);
+  letter-spacing: -0.02em;
   margin: 12px 0 17px;
 }
 .detail-meta {
   display: flex;
   align-items: center;
   gap: 17px;
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 .detail-genres {
@@ -86,24 +85,24 @@
   padding: 4px 8px;
   border-radius: 5px;
   border: 1px solid var(--border);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   color: var(--text-secondary);
 }
 .detail-tagline {
   color: var(--accent);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   font-style: italic;
   margin-bottom: 12px;
   line-height: 1.6;
 }
 .detail-overview {
-  font-size: 0.8125rem;
+  font-size: var(--text-base);
   color: var(--text-secondary);
   line-height: 1.9;
   margin: 0 0 23px;
 }
 .trailer-button {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   padding: 12px 17px;
 }
 .trailer-button > span {
@@ -111,13 +110,13 @@
 }
 .no-trailer {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
 }
 .detail-cast {
   margin-top: 32px;
 }
 .detail-cast h3 {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   margin-bottom: 15px;
 }
@@ -125,9 +124,7 @@
   padding: 60px 35px 40px;
 }
 .details-loading h2 {
-  font:
-    700 1.5rem "Manrope",
-    sans-serif;
+  font: 700 1.5rem var(--font-sans);
 }
 .details-loading > .skeleton:first-of-type {
   height: 130px;
@@ -135,7 +132,7 @@
 .details-loading > span {
   display: block;
   margin-top: 15px;
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 .details-shell > .catalog-state {
@@ -154,6 +151,7 @@
 @media (max-width: 550px) {
   .MuiDialog-paper.details-dialog {
     width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
     margin: 12px;
     max-height: calc(100% - 40px);
     border-radius: 14px;
@@ -173,10 +171,10 @@
     font-size: 1.875rem;
   }
   .detail-overview {
-    font-size: 0.75rem;
+    font-size: var(--text-base);
   }
   .detail-meta {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
   }
   .detail-genres {
     margin-bottom: 20px;
@@ -203,7 +201,7 @@
   background: var(--floating-bg);
   backdrop-filter: blur(8px);
   padding: 7px 10px;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .detail-back svg {
   font-size: 0.9375rem;
@@ -228,14 +226,12 @@
   margin-bottom: 22px;
 }
 .detail-section-heading .eyebrow {
-  font-size: 0.5rem;
-  letter-spacing: 1.6px;
+  font-size: var(--text-xs);
+  letter-spacing: normal;
 }
 .detail-section-heading h3 {
-  font:
-    800 1.375rem/1.3 "Manrope",
-    sans-serif;
-  letter-spacing: -0.6px;
+  font: 700 1.375rem/1.3 var(--font-sans);
+  letter-spacing: -0.02em;
   margin: 7px 0 0;
 }
 .watch-providers,
@@ -249,12 +245,12 @@
   flex-direction: column;
   gap: 6px;
   color: var(--muted);
-  font-size: 0.5625rem;
+  font-size: var(--text-xs);
   width: 185px;
 }
 .watch-region select {
   padding: 9px 8px;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .provider-groups {
   display: flex;
@@ -264,7 +260,7 @@
 .provider-group h4 {
   font-weight: 500;
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   margin: 0 0 10px;
 }
 .provider-list {
@@ -296,7 +292,7 @@
   color: var(--accent);
 }
 .provider-tile > span:not(.provider-monogram) {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   overflow-wrap: anywhere;
 }
 .watch-footer {
@@ -308,7 +304,7 @@
 }
 .watch-footer > span {
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
 }
 .watch-footer > span > a {
   color: var(--text-secondary);
@@ -316,7 +312,7 @@
   text-underline-offset: 3px;
 }
 .watch-footer .text-link {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .watch-footer .text-link svg {
   font-size: 0.875rem;
@@ -328,7 +324,7 @@
   border-radius: 9px;
 }
 .detail-empty p {
-  font-size: 0.75rem;
+  font-size: var(--text-base);
   margin: 0;
   color: var(--text-secondary);
   line-height: 1.7;
@@ -336,7 +332,7 @@
 .detail-empty > span {
   display: block;
   margin-top: 5px;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--muted);
   line-height: 1.7;
 }
@@ -346,11 +342,11 @@
   color: var(--accent);
   background: none;
   border: 0;
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
 }
 .watch-loading {
   color: var(--muted);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .watch-loading .skeleton {
   height: 50px;
@@ -363,7 +359,7 @@
 }
 .related-hint {
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   white-space: nowrap;
 }
 .related-grid {
@@ -376,7 +372,7 @@
   margin: -6px -3px 0;
 }
 .related-grid .title {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
 }
 .detail-info > h2:focus {
   outline: none;
@@ -410,7 +406,7 @@
     padding-right: 9px;
   }
   .provider-tile > span:not(.provider-monogram) {
-    font-size: 0.625rem;
+    font-size: var(--text-xs);
   }
   .related-hint {
     display: none;

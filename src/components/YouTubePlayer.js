@@ -75,7 +75,10 @@ export default function YouTubePlayer({ video, title }) {
   }, [video.key, video.name, title, attempt]);
   const failed = state.endsWith("error");
   return (
-    <div className="trailer-stage" aria-busy={state === "loading"}>
+    <div
+      className={`trailer-stage${failed ? " trailer-stage-error" : ""}`}
+      aria-busy={state === "loading"}
+    >
       <div className="youtube-holder" ref={holder} />
       {state === "loading" && (
         <div className="trailer-loading" role="status">

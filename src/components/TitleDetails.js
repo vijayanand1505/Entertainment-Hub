@@ -13,6 +13,7 @@ import Carousel from "./Carousel/Carousel";
 import WatchProviders from "./WatchProviders";
 import RelatedTitles from "./RelatedTitles";
 import SaveButton from "./SaveButton";
+import TitleFeedback from "./TitleFeedback";
 import ShareTitle from "./ShareTitle";
 import CollectionButton from "./CollectionButton";
 import useTmdb from "../hooks/useTmdb";
@@ -59,11 +60,11 @@ export default function TitleDetails({
           <Heading id={headingId}>
             {details.status === 404
               ? "This title isn’t available."
-              : "A brief intermission"}
+              : "Couldn’t load details"}
           </Heading>
           <p>
             {details.status === 404
-              ? "The title link may be outdated. There are plenty more stories to discover."
+              ? "This title may have been removed or the link may be incorrect."
               : "We couldn’t load these details. Please try again."}
           </p>
           {details.status === 404 ? (
@@ -108,7 +109,7 @@ export default function TitleDetails({
             />
             <div className="detail-info">
               <span className="eyebrow">
-                {type === "tv" ? "YOUR NEXT BINGE" : "TAKE A CLOSER LOOK"}
+                {type === "tv" ? "TV series" : "Movie"}
               </span>
               <Heading id={headingId} ref={headingRef} tabIndex={-1}>
                 {title}
@@ -138,8 +139,7 @@ export default function TitleDetails({
                 <p className="detail-tagline">{content.tagline}</p>
               )}
               <p className="detail-overview">
-                {content.overview ||
-                  "The story is still under wraps. Check back soon for a synopsis."}
+                {content.overview || "No synopsis available."}
               </p>
               <div className="detail-actions">
                 {trailer && (
@@ -160,6 +160,7 @@ export default function TitleDetails({
               {!trailer && (
                 <p className="no-trailer">No trailer available yet</p>
               )}
+              <TitleFeedback item={item} />
               {!asPage && (
                 <Link
                   className="text-link detail-page-link"
@@ -174,7 +175,7 @@ export default function TitleDetails({
               )}
               {content.credits?.cast?.length > 0 && (
                 <div className="detail-cast">
-                  <h3>The people behind the story</h3>
+                  <h3>Cast</h3>
                   <Carousel
                     credits={content.credits.cast}
                     sourceTitle={{ path: titlePath(type, id), title }}

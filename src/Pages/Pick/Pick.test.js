@@ -1,7 +1,14 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  render as renderPage,
+  screen,
+} from "@testing-library/react";
 import { Link, MemoryRouter, Route, Switch } from "react-router-dom";
 import axios from "axios";
 import Pick from "./Pick";
+import { PersonalizationProvider } from "../../context/PersonalizationContext";
+const render = (ui) =>
+  renderPage(<PersonalizationProvider>{ui}</PersonalizationProvider>);
 import { PICK_SESSION_KEY } from "../../utils/pickSession";
 
 jest.mock("axios", () => ({
@@ -43,7 +50,9 @@ beforeEach(() => {
   axios.get.mockResolvedValue({
     data: {
       total_pages: 1,
-      results: [{ id: 1, title: "Tonight’s movie", overview: "A saved story." }],
+      results: [
+        { id: 1, title: "Tonight’s movie", overview: "A saved story." },
+      ],
     },
   });
   jest.spyOn(Math, "random").mockReturnValue(0);
@@ -66,14 +75,18 @@ test("keeps a pick across tabs, preference changes, and reloads until manually c
   expect(screen.getByLabelText("Preferred genre").value).toBe("35");
   expect(axios.get).toHaveBeenCalledTimes(1);
 
-  fireEvent.click(screen.getByRole("button", { name: "A new series" }));
+  fireEvent.click(screen.getByRole("button", { name: "TV series" }));
   expect(screen.getByRole("heading", { name: "Tonight’s movie" })).toBeTruthy();
   expect(document.querySelector(".pick-match").textContent).toBe("Comedy");
   visit.unmount();
 
   const reloaded = render(<AppTabs />);
   expect(screen.getByRole("heading", { name: "Tonight’s movie" })).toBeTruthy();
-  expect(screen.getByRole("button", { name: "A new series" }).getAttribute("aria-pressed")).toBe("true");
+  expect(
+    screen
+      .getByRole("button", { name: "TV series" })
+      .getAttribute("aria-pressed"),
+  ).toBe("true");
   expect(screen.getByText("A saved story.")).toBeTruthy();
   fireEvent.click(screen.getByRole("button", { name: "Clear pick" }));
   expect(screen.queryByRole("heading", { name: "Tonight’s movie" })).toBeNull();
@@ -91,10 +104,10 @@ test("an unsuccessful replacement keeps the current recommendation visible", asy
   fireEvent.click(screen.getByRole("button", { name: "Pick for me" }));
   await screen.findByRole("heading", { name: "Tonight’s movie" });
   axios.get.mockRejectedValueOnce(new Error("offline"));
-  fireEvent.click(screen.getByRole("button", { name: "Not the one? Try another" }));
+  fireEvent.click(screen.getByRole("button", { name: "Try another" }));
   await screen.findByRole("alert");
   expect(screen.getByRole("heading", { name: "Tonight’s movie" })).toBeTruthy();
-  fireEvent.click(screen.getByRole("button", { name: "Not the one? Try another" }));
+  fireEvent.click(screen.getByRole("button", { name: "Try another" }));
   await screen.findByText(/No new matches in this selection/);
   expect(screen.getByRole("heading", { name: "Tonight’s movie" })).toBeTruthy();
 });

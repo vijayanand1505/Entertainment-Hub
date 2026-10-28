@@ -1,7 +1,10 @@
+import { usePersonalization } from "../context/PersonalizationContext";
+import { isExcluded } from "../utils/personalization";
 import useCatalog from "../hooks/useCatalog";
 import SingleContent from "./SingleContent/SingleContent";
 
 export default function RelatedTitles({ id, type, onSelect }) {
+  const { feedback } = usePersonalization();
   const recommendations = useCatalog(`${type}/${id}/recommendations`);
   const useSimilar =
     !recommendations.loading &&
@@ -9,7 +12,12 @@ export default function RelatedTitles({ id, type, onSelect }) {
     !recommendations.content.length;
   const similar = useCatalog(useSimilar ? `${type}/${id}/similar` : null);
   const catalog = useSimilar ? similar : recommendations;
-  const items = catalog.content.filter((item) => item.id !== id).slice(0, 12);
+  const items = catalog.content
+    .filter(
+      (item) =>
+        item.id !== id && !isExcluded({ ...item, media_type: type }, feedback),
+    )
+    .slice(0, 12);
   return (
     <section
       className="related-titles"
@@ -17,7 +25,7 @@ export default function RelatedTitles({ id, type, onSelect }) {
     >
       <div className="detail-section-heading">
         <div>
-          <span className="eyebrow">KEEP THE GOOD STORIES GOING</span>
+          <span className="eyebrow">Related titles</span>
           <h3 id={`related-heading-${type}-${id}`}>More like this</h3>
         </div>
         <span className="related-hint">Scroll to explore →</span>
@@ -32,9 +40,7 @@ export default function RelatedTitles({ id, type, onSelect }) {
       ) : !catalog.loading && !items.length ? (
         <div className="detail-empty">
           <p>No related titles listed yet.</p>
-          <span>
-            There are plenty more stories to discover in Movies and TV Series.
-          </span>
+          <span>Browse Movies or TV Series to find more titles.</span>
         </div>
       ) : (
         <div className="related-grid" aria-busy={catalog.loading}>

@@ -20,7 +20,7 @@
   margin-bottom: 20px;
 }
 .pick-section-label > span {
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   color: var(--accent);
   background: var(--accent-soft);
   border: 1px solid var(--accent-border);
@@ -32,8 +32,8 @@
   flex-shrink: 0;
 }
 .pick-section-label h2 {
-  font-size: 0.9375rem;
-  font-family: Manrope, sans-serif;
+  font-size: var(--text-base);
+  font-family: var(--font-sans);
   line-height: 1.5;
   margin: 0;
 }
@@ -80,7 +80,7 @@
   flex-shrink: 0;
 }
 .pick-moods strong {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   line-height: 1.5;
   font-weight: 500;
 }
@@ -99,7 +99,7 @@
   gap: 18px;
 }
 .pick-fields label {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -111,14 +111,14 @@
   background: var(--input-bg);
   color: var(--text);
   font: inherit;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   padding: 12px 10px;
   border: 1px solid var(--border);
   border-radius: 8px;
 }
 .pick-note {
   color: var(--muted);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   line-height: 1.7;
   margin: 17px 0 22px;
 }
@@ -154,23 +154,23 @@
   color: var(--accent);
 }
 .pick-waiting h2 {
-  font-family: Manrope, sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.75rem;
   line-height: 1.4;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.02em;
   margin: 0;
   max-width: 340px;
 }
 .pick-waiting > p {
-  font-size: 0.875rem;
+  font-size: var(--text-base);
   line-height: 1.9;
   color: var(--muted);
   max-width: 340px;
   margin: 0;
 }
 .pick-waiting .eyebrow {
-  font-size: 0.5625rem;
-  letter-spacing: 1.7px;
+  font-size: var(--text-xs);
+  letter-spacing: normal;
 }
 .pick-orbit {
   width: 160px;
@@ -215,7 +215,7 @@
   margin-top: 10px;
 }
 .pick-empty-tags span {
-  font-size: 0.5625rem;
+  font-size: var(--text-xs);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 7px 10px;
@@ -262,14 +262,14 @@
   padding: 26px 30px 28px;
 }
 .pick-result-copy .eyebrow {
-  font-size: 0.5rem;
-  letter-spacing: 1.6px;
+  font-size: var(--text-xs);
+  letter-spacing: normal;
 }
 .pick-result-copy h2 {
-  font-family: Manrope, sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.875rem;
   line-height: 1.25;
-  letter-spacing: -1px;
+  letter-spacing: -0.02em;
   margin: 12px 0 15px;
   overflow-wrap: anywhere;
 }
@@ -278,7 +278,7 @@
   align-items: center;
   gap: 15px;
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   flex-wrap: wrap;
 }
 .pick-meta > span:first-child {
@@ -291,13 +291,13 @@
   font-size: 1rem;
 }
 .pick-match {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--accent);
   line-height: 1.7;
   margin: 14px 0;
 }
 .pick-overview {
-  font-size: 0.8125rem;
+  font-size: var(--text-base);
   line-height: 1.9;
   color: var(--text-secondary);
   display: -webkit-box;
@@ -312,7 +312,7 @@
   margin: 23px 0;
 }
 .pick-result-actions .button {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   padding: 11px 13px;
   flex: 1 1 40%;
 }
@@ -322,7 +322,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--accent);
   border: 1px dashed var(--accent-border);
   border-radius: 8px;
@@ -343,54 +343,6 @@
   to {
     transform: rotate(360deg);
   }
-}
-.pick-home-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 26px 30px;
-  border: 1px solid var(--accent-border);
-  border-radius: 14px;
-  margin-top: 28px;
-  background:
-    radial-gradient(ellipse at 0 0, var(--accent-soft), transparent 80%),
-    var(--panel);
-}
-.pick-home-banner > div {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  min-width: 0;
-}
-.pick-banner-icon {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  flex-shrink: 0;
-  background: var(--accent-soft);
-  color: var(--accent);
-  border: 1px solid var(--accent-border);
-  font-size: 2rem;
-}
-.pick-home-banner h2 {
-  font-family: Manrope, sans-serif;
-  font-size: 1.125rem;
-  margin: 6px 0;
-}
-.pick-home-banner p {
-  color: var(--muted);
-  font-size: 0.8125rem;
-  line-height: 1.7;
-  margin: 0;
-}
-.pick-home-banner .eyebrow {
-  font-size: 0.5rem;
-}
-.pick-home-banner .button {
-  flex-shrink: 0;
 }
 @media (max-width: 1200px) {
   .header-search > span {
@@ -425,7 +377,7 @@
     gap: 6px;
   }
   .pick-moods strong {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
   }
   .pick-moods label > span {
     width: 20px;
@@ -445,29 +397,6 @@
   }
   .pick-waiting {
     padding: 30px 20px;
-  }
-  .pick-home-banner {
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 21px;
-    gap: 18px;
-  }
-  .pick-home-banner > div {
-    gap: 14px;
-  }
-  .pick-home-banner h2 {
-    font-size: 1rem;
-  }
-  .pick-home-banner p {
-    font-size: 0.75rem;
-  }
-  .pick-banner-icon {
-    width: 42px;
-    height: 42px;
-    font-size: 1.5rem;
-  }
-  .pick-home-banner > .button {
-    width: 100%;
   }
 }
 @media (prefers-reduced-motion: reduce) {

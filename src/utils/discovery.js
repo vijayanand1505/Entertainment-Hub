@@ -1,3 +1,4 @@
+import { applyStreamingParams, providerIds } from "./personalization";
 export const LANGUAGES = [
   ["en", "English"],
   ["hi", "Hindi"],
@@ -39,7 +40,12 @@ export function readDiscovery(search, type) {
   const page = Number(params.get("page"));
   const language = params.get("language") || "";
   const runtime = params.get("runtime") || "";
+  const providers = providerIds((params.get("providers") || "").split(","));
   return {
+    ...(providers.length && /^[A-Z]{2}$/.test(params.get("region") || "")
+      ? { providers, region: params.get("region") }
+      : {}),
+    ...(params.get("services") === "all" ? { allServices: true } : {}),
     language: LANGUAGES.some(([code]) => code === language) ? language : "",
     year:
       Number.isInteger(year) &&
@@ -66,6 +72,11 @@ export function readDiscovery(search, type) {
 }
 export function discoverySearch(filters) {
   const params = new URLSearchParams();
+  if (filters.allServices) params.set("services", "all");
+  else if (filters.providers?.length) {
+    params.set("providers", providerIds(filters.providers).join(","));
+    params.set("region", filters.region);
+  }
   ["language", "year", "rating", "runtime"].forEach((key) => {
     if (filters[key]) params.set(key, filters[key]);
   });
@@ -81,6 +92,7 @@ export function buildDiscoverPath(type, filters) {
   });
   const releaseField =
     type === "movie" ? "primary_release_date" : "first_air_date";
+  applyStreamingParams(params, filters.allServices ? null : filters);
   const sorts = {
     popular: "popularity.desc",
     rating: "vote_average.desc",

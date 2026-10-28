@@ -5,6 +5,9 @@ import { img_300, unavailable } from "../../config/config";
 import "./SingleContent.css";
 import ContentModal from "../ContentModal/ContentModal";
 import SaveButton from "../SaveButton";
+import TitleFeedback from "../TitleFeedback";
+import { usePersonalization } from "../../context/PersonalizationContext";
+import { titleKey } from "../../utils/library";
 import CollectionButton from "../CollectionButton";
 import { useTrailer } from "../../context/TrailerContext";
 import { useTitleModal } from "../../context/TitleModalContext";
@@ -19,6 +22,10 @@ const SingleContent = ({
   onSelect,
 }) => {
   const openTrailer = useTrailer();
+  const { feedback } = usePersonalization();
+  const flags = feedback.find(
+    (entry) => titleKey(entry) === `${media_type}:${id}`,
+  );
   const openTitle = useTitleModal();
   const showDetails = (event) =>
     onSelect
@@ -50,7 +57,7 @@ const SingleContent = ({
           {vote_average > 0 ? Number(vote_average).toFixed(1) : "New"}
         </span>
         <span className="card-type">
-          {media_type === "tv" ? "TV SERIES" : "MOVIE"}
+          {media_type === "tv" ? "TV series" : "Movie"}
         </span>
       </span>
       <span className="title">{title}</span>
@@ -83,6 +90,13 @@ const SingleContent = ({
         </ContentModal>
       )}
       <SaveButton compact item={item} />
+      {(flags?.watched || flags?.liked || flags?.hidden) && (
+        <div className="feedback-badges">
+          {flags.watched && <span>Watched</span>}
+          {flags.liked && <span>Liked</span>}
+          {flags.hidden && <span>Not interested</span>}
+        </div>
+      )}
       <div className="poster-quick-actions">
         <div
           className="poster-action-bar"
@@ -110,6 +124,7 @@ const SingleContent = ({
             <InfoOutlinedIcon />
           </button>
           <CollectionButton compact item={item} />
+          <TitleFeedback compact item={item} />
         </div>
       </div>
     </article>

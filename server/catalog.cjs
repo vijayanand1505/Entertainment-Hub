@@ -99,6 +99,11 @@ function createCatalog(apiKey, transport = axios) {
       }
       if (room.shared.genres.length)
         params.with_genres = room.shared.genres.join("|");
+      if (room.streaming) {
+        params.watch_region = room.streaming.region;
+        params.with_watch_providers = room.streaming.providers.join("|");
+        params.with_watch_monetization_types = "flatrate";
+      }
       const languages = room.shared.languages.length
         ? room.shared.languages
         : [""];
@@ -134,7 +139,21 @@ function createCatalog(apiKey, transport = axios) {
             if (cache.size > 500) cache.clear();
             cache.set(id, data);
           }
-          return normalizeMovie(data.movie, room.members, room.shared, today);
+          const movie = normalizeMovie(
+            data.movie,
+            room.members,
+            room.shared,
+            today,
+          );
+          if (!movie || !room.streaming) return movie;
+          const availability = await request(`movie/${id}/watch/providers`);
+          const included =
+            availability?.results?.[room.streaming.region]?.flatrate || [];
+          return included.some((provider) =>
+            room.streaming.providers.includes(provider.provider_id),
+          )
+            ? movie
+            : null;
         }),
       );
       movies.push(...batch.filter(Boolean));

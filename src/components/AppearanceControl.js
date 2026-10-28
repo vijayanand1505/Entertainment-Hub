@@ -42,8 +42,8 @@ export default function AppearanceControl() {
             <PaletteOutlinedIcon />
           </span>
           <div>
-            <span className="eyebrow">MAKE YOURSELF AT HOME</span>
-            <h2 id="appearance-heading">Your screen. Your style.</h2>
+            <span className="eyebrow">Display settings</span>
+            <h2 id="appearance-heading">Appearance</h2>
           </div>
           <button
             className="appearance-close"
@@ -54,8 +54,7 @@ export default function AppearanceControl() {
           </button>
         </div>
         <p id="appearance-description" className="appearance-description">
-          A little more comfortable, exactly how you like it. Changes apply
-          instantly.
+          Choose a theme, text size, and poster layout. Changes apply instantly.
         </p>
         <div className="appearance-options">
           <fieldset>
@@ -65,7 +64,7 @@ export default function AppearanceControl() {
                 {
                   value: "dark",
                   title: "Dark",
-                  description: "A cinematic feel",
+                  description: "Dark background",
                   Icon: Brightness2OutlinedIcon,
                 },
                 {
@@ -169,7 +168,7 @@ export default function AppearanceControl() {
                 {
                   value: "compact",
                   title: "Compact",
-                  description: "More stories in every row",
+                  description: "More posters per row",
                   count: 6,
                 },
               ].map(({ value, title, description, count }) => (

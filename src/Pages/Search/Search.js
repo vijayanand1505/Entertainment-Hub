@@ -1,7 +1,8 @@
 import "./Search.css";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import CustomPagination from "../../components/Pagination/CustomPagination";
 import CatalogGrid from "../../components/CatalogGrid";
 import useCatalog from "../../hooks/useCatalog";
@@ -29,6 +30,7 @@ const readRecent = () => {
   }
 };
 export default function Search() {
+  const location = useLocation();
   const [type, setType] = useState("movie");
   const [searchText, setSearchText] = useState("");
   const [query, setQuery] = useState("");
@@ -37,6 +39,9 @@ export default function Search() {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [recent, setRecent] = useState(readRecent);
   const inputRef = useRef(null);
+  useLayoutEffect(() => {
+    inputRef.current?.focus();
+  }, [location.key]);
   const term = searchText.trim();
   const debounced = useDebouncedValue(term);
   const showDropdown = dropdownOpen && term.length >= 2;
@@ -122,12 +127,9 @@ export default function Search() {
   return (
     <div className="search-page">
       <div className="page-heading">
-        <span className="eyebrow">THE NEXT GREAT STORY IS OUT THERE</span>
-        <h1>What are you in the mood for?</h1>
-        <p>
-          That film you’ve been meaning to watch. That series you can’t
-          remember. Find it here.
-        </p>
+        <span className="eyebrow">Find a title</span>
+        <h1>Search movies and series</h1>
+        <p>Enter a title, then choose Movies or TV Series.</p>
       </div>
       <div
         className="search-autocomplete"
@@ -169,7 +171,7 @@ export default function Search() {
         {showDropdown && (
           <div className="search-dropdown">
             <div className="suggestion-heading">
-              QUICK MATCHES<span>↑ ↓ to browse · Enter to search</span>
+              Suggestions<span>↑ ↓ to browse · Enter to search</span>
             </div>
             <ul
               id="title-suggestions"
@@ -289,8 +291,8 @@ export default function Search() {
           <span className="search-empty-icon">
             <SearchRoundedIcon />
           </span>
-          <h2>So many stories. Where to begin?</h2>
-          <p>Search for a title above, or start with a crowd favorite.</p>
+          <h2>Search for a movie or series</h2>
+          <p>Type a title above or try one of these.</p>
           <div className="search-suggestions">
             {favorites.map((text) => (
               <button

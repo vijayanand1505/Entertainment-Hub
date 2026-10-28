@@ -10,13 +10,11 @@ export default function PersonalShelves() {
     {
       items: watchlist,
       title: "Your watchlist",
-      description: "A few great stories you’ve set aside for later.",
       href: "/watchlist",
     },
     {
       items: recentlyViewed,
       title: "Recently viewed",
-      description: "Jump back into a story that caught your eye.",
       href: "/recently-viewed",
     },
   ];
@@ -26,21 +24,22 @@ export default function PersonalShelves() {
         .filter((shelf) => shelf.items.length)
         .map((shelf) => (
           <section
-            className="personal-shelf"
+            className="personal-shelf home-title-row"
             aria-label={shelf.title}
             key={shelf.href}
           >
             <div className="section-heading">
-              <div>
-                <h2>{shelf.title}</h2>
-                <p>{shelf.description}</p>
-              </div>
-              <Link className="text-link" to={shelf.href}>
+              <h2>{shelf.title}</h2>
+              <Link
+                className="text-link"
+                to={shelf.href}
+                aria-label={`View all ${shelf.title.toLowerCase()} titles`}
+              >
                 View all
                 <ArrowForwardRoundedIcon />
               </Link>
             </div>
-            <div className="library-shelf-grid">
+            <div className="home-shelf-grid">
               {shelf.items.slice(0, 6).map((item) => (
                 <SingleContent
                   key={titleKey(item)}

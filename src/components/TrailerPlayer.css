@@ -1,5 +1,6 @@
 .MuiDialog-paper.trailer-dialog {
   width: min(1040px, calc(100% - 48px));
+  max-width: calc(100% - 48px);
   margin: 24px;
   max-height: calc(100% - 48px);
   background: var(--panel);
@@ -16,14 +17,12 @@
   padding: 22px 25px;
 }
 .trailer-heading .eyebrow {
-  font-size: 0.5rem;
-  letter-spacing: 1.7px;
+  font-size: var(--text-xs);
+  letter-spacing: normal;
 }
 .trailer-heading h2 {
-  font:
-    700 1.4375rem/1.3 "Manrope",
-    sans-serif;
-  letter-spacing: -0.6px;
+  font: 700 1.4375rem/1.3 var(--font-sans);
+  letter-spacing: -0.02em;
   margin: 6px 0 0;
 }
 .trailer-close {
@@ -69,13 +68,21 @@
   justify-content: center;
   gap: 15px;
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   text-align: center;
   padding: 24px;
   background: #08090bf5;
 }
 .trailer-loading {
   pointer-events: none;
+}
+.trailer-stage-error {
+  aspect-ratio: auto;
+  flex-shrink: 0;
+}
+.trailer-error {
+  position: relative;
+  min-height: 200px;
 }
 .trailer-spinner {
   width: 24px;
@@ -118,12 +125,10 @@
   flex-direction: column;
   gap: 7px;
   color: var(--muted);
-  font-size: 0.5625rem;
+  font-size: var(--text-xs);
 }
 .trailer-video-choice select {
-  font:
-    400 0.75rem "DM Sans",
-    sans-serif;
+  font: 400 var(--text-sm)/1.5 var(--font-sans);
   color: var(--text);
   background: var(--input-bg);
   border: 1px solid var(--border);
@@ -138,10 +143,10 @@
 }
 .trailer-video-choice > span {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
 }
 .trailer-footer .text-link {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   flex-shrink: 0;
 }
 .trailer-footer .text-link svg {
@@ -150,6 +155,7 @@
 @media (max-width: 600px) {
   .MuiDialog-paper.trailer-dialog {
     width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
     margin: 12px;
     max-height: calc(100% - 24px);
     border-radius: 12px;
@@ -178,14 +184,14 @@
     gap: 12px;
   }
   .trailer-error h3 {
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
   }
   .trailer-error p {
-    font-size: 0.6875rem;
+    font-size: var(--text-base);
   }
   .trailer-error .button {
     padding: 10px 15px;
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
   }
 }
 

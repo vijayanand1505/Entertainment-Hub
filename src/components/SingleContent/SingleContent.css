@@ -55,7 +55,7 @@
   border: 1px solid #ffffff1a;
   padding: 3px 6px;
   border-radius: 5px;
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   font-weight: 700;
   line-height: 1.5;
   z-index: 1;
@@ -67,9 +67,9 @@
   position: absolute;
   bottom: 11px;
   left: 12px;
-  font-size: 0.5rem;
+  font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: 1.2px;
+  letter-spacing: normal;
   color: #f3f3f3;
   z-index: 1;
 }
@@ -80,7 +80,7 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   opacity: 0;
   transform: translateY(5px);
@@ -100,7 +100,7 @@
 .title {
   width: 100%;
   font-weight: 600;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   line-height: 1.55;
   margin-top: 11px;
   overflow: hidden;
@@ -117,7 +117,7 @@
   gap: 7px;
   margin-top: 5px;
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   line-height: 1.4;
 }
 .card-meta-dot {
@@ -125,7 +125,7 @@
 }
 @media (max-width: 650px) {
   .title {
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
     margin-top: 9px;
   }
   .poster-frame {

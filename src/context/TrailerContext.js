@@ -57,7 +57,7 @@ export function TrailerProvider({ children }) {
           <>
             <div className="trailer-heading">
               <div>
-                <span className="eyebrow">TAKE A FIRST LOOK</span>
+                <span className="eyebrow">Trailer</span>
                 <h2 id="trailer-heading">{session.title}</h2>
               </div>
               <button
@@ -85,7 +85,7 @@ export function TrailerProvider({ children }) {
             {!request.loading && !request.error && !video && (
               <div className="trailer-stage trailer-pending">
                 <h3>No trailer available yet</h3>
-                <p>Explore the title details for more about this story.</p>
+                <p>Open the title details for more information.</p>
                 <button
                   className="button button-secondary"
                   onClick={() => setOpen(false)}

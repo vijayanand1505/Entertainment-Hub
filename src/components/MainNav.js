@@ -13,12 +13,12 @@ export default function SimpleBottomNavigation() {
         to="/"
         activeClassName="active"
         isActive={(_, location) =>
-          location.pathname === "/" ||
+          ["/", "/trending"].includes(location.pathname) ||
           location.pathname.startsWith("/movie-night")
         }
       >
         <ExploreOutlinedIcon />
-        Discover
+        Home
       </NavLink>
       <NavLink to="/movies" activeClassName="active">
         <MovieRoundedIcon />
@@ -26,7 +26,7 @@ export default function SimpleBottomNavigation() {
       </NavLink>
       <NavLink to="/series" activeClassName="active">
         <TvRoundedIcon />
-        TV Series
+        Series
       </NavLink>
       <NavLink to="/search" activeClassName="active">
         <SearchRoundedIcon />
@@ -36,12 +36,12 @@ export default function SimpleBottomNavigation() {
         to="/watchlist"
         activeClassName="active"
         isActive={(_, location) =>
-          ["/watchlist", "/recently-viewed"].includes(location.pathname) ||
+          ["/watchlist", "/recently-viewed", "/my-titles"].includes(location.pathname) ||
           location.pathname.startsWith("/collections")
         }
       >
         <BookmarkBorderRoundedIcon />
-        My library
+        Library
       </NavLink>
     </nav>
   );

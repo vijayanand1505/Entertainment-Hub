@@ -2,9 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { buildPickPath, choosePick, pickRuntime } from "../utils/picks";
 import { titleKey } from "../utils/library";
+import { availableOnServices, isExcluded } from "../utils/personalization";
 import { PICK_SESSION_KEY, readPickSession } from "../utils/pickSession";
 
-export default function usePick() {
+export default function usePick({ feedback = [], streaming = null } = {}) {
+  const preferencesRef = useRef({ feedback, streaming });
+  preferencesRef.current = { feedback, streaming };
+  const streamingKey = JSON.stringify(streaming);
   const [state, setState] = useState(() => ({
     ...readPickSession(),
     loading: false,
@@ -37,6 +41,13 @@ export default function usePick() {
     },
     [],
   );
+  useEffect(() => {
+    active.current?.cancel();
+    active.current = null;
+    setState((current) =>
+      current.loading ? { ...current, loading: false } : current,
+    );
+  }, [streamingKey]);
   const updatePreferences = useCallback((patch) => {
     setState((current) => ({
       ...current,
@@ -47,7 +58,11 @@ export default function usePick() {
     active.current?.cancel();
     const cancel = axios.CancelToken.source();
     active.current = cancel;
-    const query = buildPickPath(filters, genres);
+    const criteria = {
+      ...filters,
+      streaming: preferencesRef.current.streaming,
+    };
+    const query = buildPickPath(criteria, genres);
     if (history.current.query !== query)
       history.current = { query, seen: new Set() };
     setState((current) => ({
@@ -71,7 +86,7 @@ export default function usePick() {
       const total = Math.min(10, Number(first.total_pages) || 1);
       const page = 1 + Math.floor(Math.random() * total);
       const another =
-        page > 1 ? await request(buildPickPath(filters, genres, page)) : null;
+        page > 1 ? await request(buildPickPath(criteria, genres, page)) : null;
       const candidates = [
         ...(another?.results || []),
         ...(first.results || []),
@@ -82,9 +97,24 @@ export default function usePick() {
         const candidate = choosePick(
           candidates,
           filters.type,
-          history.current.seen,
+          new Set([
+            ...history.current.seen,
+            ...preferencesRef.current.feedback
+              .filter((entry) => entry.watched || entry.hidden)
+              .map(titleKey),
+          ]),
         );
         if (!candidate) break;
+        if (criteria.streaming) {
+          const providers = await request(
+            `${filters.type}/${candidate.id}/watch/providers`,
+          );
+          if (active.current !== cancel) return;
+          if (!availableOnServices(providers, criteria.streaming)) {
+            history.current.seen.add(titleKey(candidate));
+            continue;
+          }
+        }
         if (filters.minutes) {
           // Verify time-limited picks against the title’s own runtime metadata.
           const details = await request(`${filters.type}/${candidate.id}`);
@@ -96,6 +126,10 @@ export default function usePick() {
           }
           item = { ...candidate, pick_runtime: runtime };
         } else item = candidate;
+        if (isExcluded(candidate, preferencesRef.current.feedback)) {
+          item = null;
+          continue;
+        }
         break;
       }
       if (active.current !== cancel) return;
@@ -106,7 +140,7 @@ export default function usePick() {
         loading: false,
         error: false,
         empty: !item,
-        filters: item ? filters : current.filters,
+        filters: item ? criteria : current.filters,
         genreName: item
           ? genres.find((genre) => String(genre.id) === String(filters.genre))
               ?.name || ""
@@ -136,5 +170,11 @@ export default function usePick() {
       genreName: "",
     }));
   }, []);
-  return { ...state, pick, reset, updatePreferences };
+  const item =
+    state.item &&
+    !isExcluded(state.item, feedback) &&
+    JSON.stringify(state.filters?.streaming || null) === streamingKey
+      ? state.item
+      : null;
+  return { ...state, item, pick, reset, updatePreferences };
 }

@@ -1,4 +1,5 @@
 import { normalizeTitle } from "./library";
+import { providerIds } from "./personalization";
 import { MOODS } from "./picks";
 
 export const PICK_SESSION_KEY = "eh-pick-session-v1";
@@ -11,11 +12,13 @@ export const INITIAL_PICK_FILTERS = {
 };
 
 function normalizeFilters(value) {
+  const ids = providerIds(value?.streaming?.providers);
   return {
+    ...(ids.length && /^[A-Z]{2}$/.test(value?.streaming?.region || "")
+      ? { streaming: { region: value.streaming.region, providers: ids } }
+      : {}),
     type: value?.type === "tv" ? "tv" : "movie",
-    mood: MOODS.some((mood) => mood.value === value?.mood)
-      ? value.mood
-      : "any",
+    mood: MOODS.some((mood) => mood.value === value?.mood) ? value.mood : "any",
     genre: /^\d+$/.test(value?.genre) ? String(value.genre) : "",
     language: /^[a-z]{2}$/.test(value?.language) ? value.language : "",
     minutes: ["30", "45", "60", "90", "120", "180"].includes(value?.minutes)

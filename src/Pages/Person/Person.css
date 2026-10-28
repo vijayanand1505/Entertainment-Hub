@@ -22,10 +22,8 @@
   padding-top: 5px;
 }
 .person-intro h1 {
-  font:
-    800 clamp(1.875rem, 4vw, 2.9375rem)/1.2 "Manrope",
-    sans-serif;
-  letter-spacing: -1.5px;
+  font: 700 var(--heading-page)/1.2 var(--font-sans);
+  letter-spacing: -0.02em;
   margin: 12px 0 16px;
 }
 .person-meta {
@@ -36,7 +34,7 @@
 }
 .person-meta > span {
   color: var(--text-secondary);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   border: 1px solid var(--border);
   padding: 5px 9px;
   border-radius: 5px;
@@ -49,22 +47,22 @@
 }
 .person-facts dt {
   color: var(--muted);
-  font-size: 0.5625rem;
+  font-size: var(--text-xs);
   margin-bottom: 6px;
 }
 .person-facts dd {
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
   margin: 0;
   line-height: 1.6;
 }
 .person-intro h2 {
-  font-size: 0.9375rem;
+  font-size: var(--text-base);
   margin: 24px 0 12px;
   font-weight: 600;
 }
 .person-biography {
   color: var(--text-secondary);
-  font-size: 0.8125rem;
+  font-size: var(--text-base);
   line-height: 1.9;
 }
 .person-biography.collapsed {
@@ -81,14 +79,14 @@
   margin-bottom: 0;
 }
 .person-intro .text-button {
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   margin-top: 5px;
 }
 .person-tmdb {
   display: flex;
   width: fit-content;
   margin-top: 22px;
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   color: var(--muted);
 }
 .person-tmdb svg {
@@ -100,9 +98,7 @@
   border-radius: 15px;
 }
 .person-loading h1 {
-  font:
-    700 1.5625rem "Manrope",
-    sans-serif;
+  font: 700 1.5625rem var(--font-sans);
 }
 .person-loading > .skeleton {
   height: 220px;
@@ -110,7 +106,7 @@
 }
 .person-loading > span {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--text-sm);
 }
 .filmography-toolbar {
   display: flex;
@@ -131,7 +127,7 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px;
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   min-width: 0;
 }
 .filmography-controls input {
@@ -147,7 +143,7 @@
 .credit-role {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 0.625rem;
+  font-size: var(--text-xs);
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -197,21 +193,21 @@
     margin-bottom: 25px;
   }
   .person-intro h1 {
-    font-size: 2.0625rem;
-    letter-spacing: -1.1px;
+    font-size: var(--heading-page);
+    letter-spacing: -0.02em;
   }
   .person-intro .eyebrow {
-    font-size: 0.5rem;
-    letter-spacing: 1.6px;
+    font-size: var(--text-xs);
+    letter-spacing: normal;
   }
   .person-biography {
-    font-size: 0.75rem;
+    font-size: var(--text-base);
   }
   .person-facts {
     gap: 18px 25px;
   }
   .person-facts dd {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
   }
   .person-filmography .period-tabs button {
     flex: 1;
@@ -224,6 +220,6 @@
     width: 130px;
   }
   .credit-role {
-    font-size: 0.5625rem;
+    font-size: var(--text-xs);
   }
 }

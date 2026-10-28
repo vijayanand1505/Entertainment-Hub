@@ -12,6 +12,7 @@ export default function DiscoveryFilters({ type, filters, onChange, onReset }) {
       Boolean(filters[key]),
     ).length +
     filters.genres.length +
+    Number(Boolean(filters.providers?.length)) +
     Number(filters.sort !== "popular");
   const select = (key) => (event) => onChange({ [key]: event.target.value });
   return (
@@ -19,7 +20,7 @@ export default function DiscoveryFilters({ type, filters, onChange, onReset }) {
       <div className="filter-heading">
         <span>
           <TuneRoundedIcon />
-          Make it your kind of story{active > 0 && <b>{active}</b>}
+          Filter titles{active > 0 && <b>{active}</b>}
         </span>
         {active > 0 && (
           <button onClick={onReset}>

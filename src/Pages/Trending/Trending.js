@@ -2,42 +2,36 @@ import "./Trending.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
-import WhatshotRoundedIcon from "@material-ui/icons/WhatshotRounded";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import PauseRoundedIcon from "@material-ui/icons/PauseRounded";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import GroupRoundedIcon from "@material-ui/icons/GroupRounded";
+import ShuffleRoundedIcon from "@material-ui/icons/ShuffleRounded";
 import ContentModal from "../../components/ContentModal/ContentModal";
 import CatalogGrid from "../../components/CatalogGrid";
+import SaveButton from "../../components/SaveButton";
+import TrendingPeriodTabs from "../../components/TrendingPeriodTabs";
 import useCatalog from "../../hooks/useCatalog";
 import useAutoSlide from "../../hooks/useAutoSlide";
+import PersonalizedShelf from "../../components/PersonalizedShelf";
+import { usePersonalization } from "../../context/PersonalizationContext";
+import { isExcluded } from "../../utils/personalization";
 import PersonalShelves from "../../components/PersonalShelves";
-import ShuffleRoundedIcon from "@material-ui/icons/ShuffleRounded";
-import "../Pick/Pick.css";
 
 const Trending = () => {
   const [period, setPeriod] = useState("day");
   const catalog = useCatalog(`trending/all/${period}`);
-  const featured = catalog.content
-    .filter((item) => item.backdrop_path)
-    .slice(0, 5);
+  const { feedback } = usePersonalization();
+  const content = catalog.content.filter((item) => !isExcluded(item, feedback));
+  const featured = content.filter((item) => item.backdrop_path).slice(0, 5);
   const carousel = useAutoSlide(featured.length, !catalog.loading, period);
   const featuredIndex = carousel.index;
   const spotlight = featured[featuredIndex] || featured[0];
   return (
-    <div>
+    <div className="home-page">
       <div className="discover-intro">
-        <div>
-          <span className="eyebrow">YOUR DAILY DOSE OF GREAT STORIES</span>
-          <h1>
-            Find your next favorite<span>.</span>
-          </h1>
-        </div>
-        <span className="live-label">
-          <span />
-          Always something worth watching
-        </span>
+        <h1>Find something to watch</h1>
       </div>
       {catalog.loading ? (
         <div
@@ -74,14 +68,13 @@ const Trending = () => {
               key={`content-${spotlight.media_type}-${spotlight.id}`}
               aria-live={carousel.playing ? "off" : "polite"}
             >
-              <span className="hero-label">
-                <WhatshotRoundedIcon />
-                IN THE SPOTLIGHT
-              </span>
+              <span className="hero-label">Featured</span>
               <div className="hero-meta">
                 <span className="hero-rating">
                   <StarRoundedIcon />
-                  {spotlight.vote_average?.toFixed(1)}
+                  {spotlight.vote_average > 0
+                    ? spotlight.vote_average.toFixed(1)
+                    : "Not rated"}
                 </span>
                 <span>
                   {(
@@ -94,33 +87,27 @@ const Trending = () => {
                 <span>
                   {spotlight.media_type === "tv" ? "TV Series" : "Movie"}
                 </span>
-                <span className="hero-trending">Trending now</span>
               </div>
               <h2>{spotlight.title || spotlight.name}</h2>
               <p>
                 {spotlight.overview ||
-                  "A story worth discovering. Take a closer look at this trending title."}
+                  "No synopsis available. Open the details to learn more."}
               </p>
               <div className="hero-actions">
                 <ContentModal
                   media_type={spotlight.media_type}
                   id={spotlight.id}
                   triggerClassName="button"
-                  label={`More about ${spotlight.title || spotlight.name}`}
+                  label={`View details for ${spotlight.title || spotlight.name}`}
                 >
                   <InfoOutlinedIcon />
-                  More details
+                  View details
                 </ContentModal>
-                <Link className="button button-secondary" to="/movies">
-                  Explore movies
-                  <ArrowForwardRoundedIcon />
-                </Link>
+                <SaveButton item={spotlight} shortLabel />
               </div>
             </div>
             <div className="hero-bottom">
-              <span className="hero-caption">
-                A new story. A different world.
-              </span>
+              <span className="hero-caption">Featured movies and series</span>
               <div className="hero-carousel-controls">
                 {featured.length > 1 && (
                   <button
@@ -150,6 +137,7 @@ const Trending = () => {
                   {featured.map((item, index) => (
                     <button
                       key={`${item.media_type}-${item.id}`}
+                      type="button"
                       aria-label={`Feature ${item.title || item.name}`}
                       aria-pressed={index === featuredIndex}
                       className={index === featuredIndex ? "active" : ""}
@@ -159,8 +147,8 @@ const Trending = () => {
                     </button>
                   ))}
                   <span className="hero-count">
-                    0{featuredIndex + 1}
-                    <span> / 0{featured.length}</span>
+                    {featuredIndex + 1}
+                    <span> / {featured.length}</span>
                   </span>
                 </div>
               </div>
@@ -168,102 +156,46 @@ const Trending = () => {
           </section>
         )
       )}
-      <section className="pick-home-banner" aria-label="Find a recommendation">
-        <div>
-          <span className="pick-banner-icon" aria-hidden="true">
-            ✦
-          </span>
-          <div>
-            <span className="eyebrow">LET THE STORY FIND YOU</span>
-            <h2>Can’t decide what to watch?</h2>
-            <p>A mood, a little time, and one pick just for tonight.</p>
-          </div>
-        </div>
-        <Link className="button" to="/pick-for-me">
+      <nav className="home-shortcuts" aria-label="Discovery shortcuts">
+        <Link to="/pick-for-me">
           <ShuffleRoundedIcon />
-          Pick for me
+          <span>Pick for me</span>
+          <ArrowForwardRoundedIcon className="shortcut-arrow" />
         </Link>
-      </section>
-      <section className="night-home-banner" aria-label="Movie Night Match">
-        <div>
-          <span className="night-banner-icon" aria-hidden="true">
-            <GroupRoundedIcon />
-          </span>
-          <div>
-            <span className="eyebrow">MAKE A NIGHT OF IT, TOGETHER</span>
-            <h2>One movie. Everyone’s kind of night.</h2>
-            <p>
-              Invite your crew, vote in private, and reveal your shared
-              favorites.
-            </p>
-          </div>
-        </div>
-        <Link className="button button-secondary" to="/movie-night">
-          Plan a movie night
-          <ArrowForwardRoundedIcon />
+        <Link to="/movie-night">
+          <GroupRoundedIcon />
+          <span>Movie night</span>
+          <ArrowForwardRoundedIcon className="shortcut-arrow" />
         </Link>
-      </section>
-      <PersonalShelves />
-      <section className="trending-section" aria-labelledby="trending-title">
+      </nav>
+      <section className="home-title-row" aria-labelledby="trending-title">
         <div className="section-heading">
-          <div>
-            <h2 id="trending-title">
-              Worth the hype<span className="heading-dot">.</span>
-            </h2>
-            <p>The movies and series everyone’s talking about.</p>
-          </div>
-          <Link to="/movies" className="text-link">
-            Discover movies
+          <h2 id="trending-title">Trending now</h2>
+          <Link
+            to={`/trending?period=${period}`}
+            className="text-link"
+            aria-label="View all trending titles"
+          >
+            View all
             <ArrowForwardRoundedIcon />
           </Link>
         </div>
         <div className="catalog-toolbar">
-          <div
-            className="period-tabs"
-            role="group"
-            aria-label="Trending time period"
-          >
-            <button
-              className={period === "day" ? "active" : ""}
-              aria-pressed={period === "day"}
-              onClick={() => {
-                setPeriod("day");
-              }}
-            >
-              Today
-            </button>
-            <button
-              className={period === "week" ? "active" : ""}
-              aria-pressed={period === "week"}
-              onClick={() => {
-                setPeriod("week");
-              }}
-            >
-              This week
-            </button>
-          </div>
-          <span className="catalog-note">
-            <WhatshotRoundedIcon />
-            Trending across movies & TV
-          </span>
+          <TrendingPeriodTabs period={period} onChange={setPeriod} />
         </div>
-        <CatalogGrid {...catalog} />
+        <CatalogGrid {...catalog} content={content} limit={6} />
       </section>
-      <Link className="discover-banner" to="/series">
-        <span className="banner-icon">↗</span>
-        <span>
-          <span className="eyebrow">ONE MORE EPISODE?</span>
-          <strong>Meet your next binge.</strong>
-          <span className="banner-description">
-            New worlds, unforgettable characters, and stories that stay with
-            you.
-          </span>
-        </span>
-        <span className="banner-link">
-          Explore TV series
-          <ArrowForwardRoundedIcon />
-        </span>
-      </Link>
+      <PersonalizedShelf />
+      <PersonalShelves />
+      <nav className="home-browse" aria-label="Browse catalogs">
+        <span>Keep exploring</span>
+        <Link className="text-link" to="/movies">
+          Movies <ArrowForwardRoundedIcon />
+        </Link>
+        <Link className="text-link" to="/series">
+          TV series <ArrowForwardRoundedIcon />
+        </Link>
+      </nav>
     </div>
   );
 };

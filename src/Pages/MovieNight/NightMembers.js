@@ -27,7 +27,7 @@ export default function NightMembers({ room, onRemove, busy }) {
       aria-labelledby="night-people-heading"
     >
       <div className="night-panel-heading">
-        <h2 id="night-people-heading">Your movie-night crew</h2>
+        <h2 id="night-people-heading">Participants</h2>
         <span>{room.members.length}/12</span>
       </div>
       <div className="night-member-list">
@@ -81,7 +81,7 @@ export default function NightMembers({ room, onRemove, busy }) {
       </div>
       <p className="night-help">
         {room.phase === "lobby"
-          ? "Everyone here is ready. The host starts when the crew is complete."
+          ? "The host can start voting once everyone has joined."
           : "Progress is shared. Individual choices stay private."}
       </p>
     </section>
